@@ -5,19 +5,19 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from "vue"
 
 export default Vue.extend({
   name: "HelloWorld",
   mounted() {
-    browser.runtime.sendMessage({});
+    browser.runtime.sendMessage({})
   },
   computed: {
     defaultText() {
-      return browser.i18n.getMessage("extName");
+      return browser.i18n.getMessage("extName")
     }
   }
-});
+})
 </script>
 
 <style scoped>
