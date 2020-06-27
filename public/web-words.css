@@ -1,0 +1,5 @@
+.web-words-item {
+  /* font-size: 3rem !important; */
+  display: inline-block;
+  border-bottom: 2px dashed blue;
+}

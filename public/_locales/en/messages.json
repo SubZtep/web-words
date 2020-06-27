@@ -2,5 +2,14 @@
   "extName": {
     "message": "web-words",
     "description": ""
+  },
+  "pasteDictionary": {
+    "message": "Paste dictionary data below. [link to doc]"
+  },
+  "saveDictionary": {
+    "message": "Save Dictionary"
+  },
+  "loading": {
+    "message": "Loading"
   }
 }

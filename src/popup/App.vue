@@ -1,14 +1,14 @@
 <template>
-  <hello-world />
+  <dictionary />
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import HelloWorld from "@/components/HelloWorld.vue"
+import Dictionary from "@/components/Dictionary.vue"
 
 export default Vue.extend({
   name: "App",
-  components: { HelloWorld }
+  components: { Dictionary },
 })
 </script>
 
