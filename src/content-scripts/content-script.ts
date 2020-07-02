@@ -12,11 +12,10 @@ const main = async () => {
   }
 
   dict[key].forEach((ab: string[]) => {
-    //FIXME: search for full words only and replace properly
-    const re = new RegExp(`(?<!<[^>]*)${ab[0]}`, "gi")
+    const re = new RegExp(`(?<!<[^>]*)\\b${ab[0]}\\b`, "gi")
     const matches = html.matchAll(re)
 
-    for (const match of matches) {
+    for (const match of Array.from(matches).reverse()) {
       if (match.index === undefined) continue
       const word = `<span class="web-words-item" title="${ab[1]}">${match[0]}</span>`
       html = html.substring(0, match.index) + word + html.substring(match.index + match[0].length)

@@ -16,8 +16,8 @@
     "@types/chai": "^4.2.11",
     "@types/firefox-webext-browser": "^78.0.0",
     "@types/mocha": "^7.0.2",
-    "@typescript-eslint/eslint-plugin": "^3.4.0",
-    "@typescript-eslint/parser": "^3.4.0",
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
     "@vue/cli-plugin-babel": "~4.4.6",
     "@vue/cli-plugin-eslint": "~4.4.6",
     "@vue/cli-plugin-typescript": "~4.4.6",
@@ -31,7 +31,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "^2.0.5",
-    "typescript": "~3.9.5",
+    "typescript": "~3.9.6",
     "vue-cli-plugin-browser-extension": "~0.24.2",
     "vue-template-compiler": "^2.6.11"
   }
