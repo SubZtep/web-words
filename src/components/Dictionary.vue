@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import Vue from "vue"
+import { Dict } from "@/assets/types"
 
 export default Vue.extend({
   name: "Dictionary",
@@ -40,7 +41,7 @@ export default Vue.extend({
       this.loading = true
       const { value } = this.$refs["txt"] as HTMLTextAreaElement
 
-      const dict: { [key: string]: string[][] } = {}
+      const dict: Dict = {}
       value.split("\n").forEach(row => {
         const cols = row.split("\t")
         const key = cols.shift() + "-" + cols.shift()
