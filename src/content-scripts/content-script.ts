@@ -24,7 +24,7 @@ const main = async () => {
 
   do {
     let found = false
-    const chunks = node.nodeValue?.split(/(\b\w+\b)/) ?? []
+    const chunks = node.nodeValue?.split(/(\b\w+\b)/).filter(Boolean) ?? []
 
     const nodeParts = chunks.map(chunk => {
       if (/\w/.test(chunk)) {
@@ -46,6 +46,7 @@ const main = async () => {
     if (found) {
       const group = document.createElement("span")
       nodeParts.forEach(nodePart => void group.appendChild(nodePart))
+      group.normalize()
       node.parentNode?.replaceChild(group, node)
     }
     node = next
