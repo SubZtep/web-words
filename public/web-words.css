@@ -1,5 +1,5 @@
 .web-words-item {
-  /* font-size: 3rem !important; */
   display: inline-block;
-  border-bottom: 2px dashed blue;
+  background-color: yellow;
+  border-bottom: 2px dashed darkred;
 }

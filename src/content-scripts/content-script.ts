@@ -1,70 +1,57 @@
 import { Dict } from "@/assets/types"
 
-// const main = async () => {
-const main = () => {
+const main = async () => {
+  console.time("ext")
   const fromLang = "English"
   const toLang = "Hungarian"
   const key = `${fromLang}-${toLang}`
-  // const dict: Dict = await browser.storage.local.get(key)
-  const dict: Dict = {
-    [key]: [
-      ["information", "infoinfoinfo"],
-      //["for", "nyunyunyu"],
-    ],
-  }
+  const dict: Dict = await browser.storage.local.get(key)
+  // const dict: Dict = {
+  //   [key]: [
+  //     ["information", "infoinfoinfo"],
+  //     ["to", "nyunyunyu"],
+  //   ],
+  // }
 
   if (dict[key] === undefined) {
     console.log("No dict")
     return
   }
 
-  let node: Node | null
-  const tree = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+  let node = walker.nextNode()
+  if (!node) return
 
-  let text: string
-  let chunks: string[]
-  let group: HTMLSpanElement
-  let span: HTMLSpanElement
-  let chunkLength: number
-  let wordLength: number
-  let offset: number
-  let until: number
+  do {
+    let found = false
+    const chunks = node.nodeValue?.split(/(\b\w+\b)/) ?? []
 
-  while ((node = tree.nextNode())) {
-    text = node?.nodeValue || ""
-
-    dict[key].forEach(([word, title]) => {
-      // chunks = text.split(new RegExp(`\\b${word}\\b`, "i"))
-      chunks = text.split(word)
-      if (chunks.length < 2) return
-
-      console.log({ text, word })
-
-      group = document.createElement("span")
-      wordLength = word.length
-      until = chunks.length - 1
-      offset = 0
-
-      chunks.forEach((chunk, index) => {
-        chunkLength = chunk.length
-        if (chunkLength > 0) {
-          group.appendChild(
-            document.createElement("span").appendChild(document.createTextNode(chunk))
-          )
-          offset += chunkLength
+    const nodeParts = chunks.map(chunk => {
+      if (/\w/.test(chunk)) {
+        for (const [word, title] of dict[key]) {
+          if (word.toLowerCase() === chunk.toLowerCase()) {
+            found = true
+            const span = document.createElement("span")
+            span.className = "web-words-item"
+            span.title = title
+            span.innerText = chunk
+            return span
+          }
         }
-        if (index < until) {
-          span = document.createElement("span")
-          span.className = "web-words-item"
-          span.title = title
-          span.innerText = text.substring(offset, offset + wordLength)
-          group.appendChild(span)
-          offset += word.length
-        }
-      })
-
-      node!.parentNode?.replaceChild(group, node!)
+      }
+      return document.createTextNode(chunk)
     })
-  }
+
+    const next = walker.nextNode()
+    if (found) {
+      const group = document.createElement("span")
+      nodeParts.forEach(nodePart => void group.appendChild(nodePart))
+      node.parentNode?.replaceChild(group, node)
+    }
+    node = next
+  } while (node)
+
+  console.timeEnd("ext")
 }
+
 main()
