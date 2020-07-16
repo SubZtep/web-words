@@ -2,7 +2,7 @@
   div
     div(v-if="!loading")
       .body-1 {{ pasteDictionary }}
-      v-textarea(outlined ref="txt")
+      v-textarea(outlined full-width v-model="txt")
       v-btn(block color="primary" @click="saveDict()") {{ saveDictionary }}
     div(v-else)
       | {{ loadingText }}
@@ -30,39 +30,26 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
+      txt: "",
     }
   },
   methods: {
     async saveDict() {
       this.loading = true
-      const { value } = this.$refs["txt"] as HTMLTextAreaElement
-
       const dict: Dict = {}
-      value.split("\n").forEach(row => {
-        const cols = row.split("\t")
+      this.txt.split("\n").forEach(row => {
+        const cols = row.split("\t").map(col => col.trim().toLowerCase())
         const key = cols.shift() + "-" + cols.shift()
-        if (dict[key] === undefined) {
-          dict[key] = []
+        if (/.+-.+/.test(key)) {
+          if (dict[key] === undefined) {
+            dict[key] = []
+          }
+          dict[key].push(cols)
         }
-        dict[key].push(cols)
       })
-
-      for (const [key, words] of Object.entries(dict)) {
-        await browser.storage.local.set({ [key]: words })
-      }
-
+      await browser.storage.local.set({ dict })
       this.loading = false
     },
   },
 })
 </script>
-
-<style scoped>
-p {
-  font-size: 20px;
-}
-textarea {
-  width: 80%;
-  height: 120px;
-}
-</style>
