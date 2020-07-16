@@ -47,7 +47,11 @@ export default Vue.extend({
           dict[key].push(cols)
         }
       })
-      await browser.storage.local.set({ dict })
+      for (const [langs, words] of Object.entries(dict)) {
+        const obj = {} as { [key: string]: string[][] }
+        obj[`dict-${langs}`] = words
+        await browser.storage.local.set(obj)
+      }
       this.loading = false
     },
   },

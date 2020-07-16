@@ -20,7 +20,7 @@ export default Vue.extend({
     }
   },
   async created() {
-    this.dict = (await browser.storage.local.get("dict")).dict as Dict
+    this.dict = (await browser.storage.local.get()) as Dict
   },
 })
 </script>
