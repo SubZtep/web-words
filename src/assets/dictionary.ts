@@ -1,3 +1,4 @@
-export const setWords = async ($data: string) => {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const setWords = ($data: string) => {
   //
 }

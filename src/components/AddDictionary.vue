@@ -1,14 +1,11 @@
-<template>
-  <div>
-    <div v-if="!loading">
-      <p>{{ pasteDictionary }}</p>
-      <textarea ref="txt"></textarea>
-      <button @click="saveDict()">{{ saveDictionary }}</button>
-    </div>
-    <div v-else>
-      <p>{{ loadingText }}</p>
-    </div>
-  </div>
+<template lang="pug">
+  div
+    div(v-if="!loading")
+      .body-1 {{ pasteDictionary }}
+      v-textarea(outlined ref="txt")
+      v-btn(block color="primary" @click="saveDict()") {{ saveDictionary }}
+    div(v-else)
+      | {{ loadingText }}
 </template>
 
 <script lang="ts">
@@ -16,7 +13,6 @@ import Vue from "vue"
 import { Dict } from "@/assets/types"
 
 export default Vue.extend({
-  name: "Dictionary",
   mounted() {
     browser.runtime.sendMessage({})
   },

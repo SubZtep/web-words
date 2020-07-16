@@ -1,7 +1,10 @@
 {
   "extName": {
-    "message": "web-words",
-    "description": ""
+    "message": "Web Words",
+    "description": "Extension name in various places."
+  },
+  "extDescription": {
+    "message": "Word translator browser extension."
   },
   "pasteDictionary": {
     "message": "Paste dictionary data below. [link to doc]"

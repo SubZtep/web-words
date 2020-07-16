@@ -10,16 +10,11 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    // "types": [
-    //   "webpack-env",
-    //   "mocha",
-    //   "chai",
-    //   "firefox-webext-browser"
-    // ],
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "types": ["webpack-env", "jest", "firefox-webext-browser", "vuetify"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
   "exclude": ["node_modules"]

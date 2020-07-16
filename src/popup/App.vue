@@ -1,14 +1,19 @@
-<template>
-  <dictionary />
+<template lang="pug">
+v-app
+  v-expansion-panels
+    v-expansion-panel
+      v-expansion-panel-header Add Dictionary
+      v-expansion-panel-content
+        add-dictionary
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import Dictionary from "@/components/Dictionary.vue"
+import AddDictionary from "@/components/AddDictionary.vue"
 
 export default Vue.extend({
   name: "App",
-  components: { Dictionary },
+  components: { AddDictionary },
 })
 </script>
 

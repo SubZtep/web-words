@@ -23,10 +23,8 @@ module.exports = {
             "content-script": ["src/content-scripts/content-script.ts"],
           },
         },
-        // include: {
-        //   entry: "src/assets/web-words.css",
-        // },
       },
     },
   },
+  transpileDependencies: ["vuetify"],
 }
