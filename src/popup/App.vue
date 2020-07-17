@@ -1,9 +1,8 @@
 <template lang="pug">
 v-app
-  v-toolbar.flex-grow-0
-    v-tabs(v-model="tab")
-      v-tab Add Dictionary
-      v-tab Dictionary
+  v-tabs.flex-grow-0(v-model="tab")
+    v-tab Add Dictionary
+    v-tab Dictionary
 
   v-tabs-items(v-model="tab")
     v-tab-item
@@ -29,7 +28,8 @@ export default Vue.extend({
 </script>
 
 <style>
-html {
+html,
+body {
   width: 400px;
   height: 400px;
 }

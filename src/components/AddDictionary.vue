@@ -1,5 +1,6 @@
 <template lang="pug">
-  div
+v-card(flat)
+  v-card-text
     div(v-if="!loading")
       .body-1 {{ pasteDictionary }}
       v-textarea(outlined full-width v-model="txt")
