@@ -1,5 +1,8 @@
 .web-words-item {
   display: inline-block;
-  background-color: yellow;
-  border-bottom: 2px dashed darkred;
+  color: #191970;
+  background-color: #add8e6;
+  border-bottom: 1px dashed #dcae96;
+  border-top-left-radius: 1px;
+  border-top-right-radius: 1px;
 }

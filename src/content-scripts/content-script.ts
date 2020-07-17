@@ -1,47 +1,36 @@
-import { Dict } from "@/assets/types"
+import { Dict, Words } from "@/assets/types"
 
-const main = async () => {
+const translatePage = async (language: string) => {
   console.time("web-words")
-  const fromLang = "english"
-  const toLang = "hungarian"
-  const langs = `${fromLang}-${toLang}`
-  const key = `dict-${langs}`
-  let dict: Dict = await browser.storage.local.get(key)
-  if (!dict) {
+
+  const dict: Dict = await browser.storage.local.get(language)
+  if (dict[language] === undefined) {
     console.log("No dict")
     return
   }
+
+  // Drop (rare) multiply translated words for now.
+  const words: Words = Object.fromEntries(Object.values(dict[language]).flat())
 
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   let node = walker.nextNode()
   if (!node) return
 
-  let foundCount = 0
+  let count = 0
+  let chunks: string[]
   let nodeParts: Node[]
-  let parent: Node | null
 
   do {
     let found = false
-    parent = node.parentNode
 
-    if (
-      parent !== null &&
-      !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
-    ) {
-      const chunks = node.nodeValue?.split(/(\b\w+\b)/).filter(Boolean) ?? []
-
+    if (translatable(node)) {
+      chunks = node.nodeValue?.split(/(\b\w+\b)/).filter(Boolean) ?? []
       nodeParts = chunks.map(chunk => {
-        if (/\w/.test(chunk)) {
-          for (const [word, title] of dict[key]) {
-            if (word === chunk.toLowerCase()) {
-              found = true
-              const span = document.createElement("span")
-              span.className = "web-words-item"
-              span.title = title
-              span.innerText = chunk
-              return span
-            }
-          }
+        const toLang = words[chunk.toLowerCase()]
+        if (toLang !== undefined) {
+          found = true
+          count++
+          return spanFactory(chunk, toLang)
         }
         return document.createTextNode(chunk)
       })
@@ -49,21 +38,42 @@ const main = async () => {
 
     const next = walker.nextNode()
     if (found) {
-      const group = document.createElement("span")
-      nodeParts!.forEach(nodePart => void group.appendChild(nodePart))
-      group.normalize()
-      node.parentNode?.replaceChild(group, node)
-      foundCount++
+      replaceWithParts(node, nodeParts!)
     }
     node = next
   } while (node)
 
-  // if (foundCount > 0) {
-  //   const badge = { text: foundCount.toString() }
-  //   console.log("send message to background", browser.runtime)
-  // }
+  if (count > 0) {
+    browser.runtime.sendMessage({ type: "WORDS_FOUND", count })
+  }
 
-  console.timeEnd("ext")
+  console.timeEnd("web-words")
 }
 
-main()
+const spanFactory = (word: string, title: string) => {
+  const span = document.createElement("span")
+  span.className = "web-words-item"
+  span.title = title
+  span.innerText = word
+  return span
+}
+
+const translatable = (node: Node) => {
+  const parent = node.parentNode
+  return parent !== null && !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
+}
+
+const replaceWithParts = (node: Node, parts: Node[]) => {
+  const group = document.createElement("span")
+  parts!.forEach(part => void group.appendChild(part))
+  group.normalize()
+  node.parentNode?.replaceChild(group, node)
+}
+
+browser.runtime.sendMessage({ type: "ASK_LANGUAGE" })
+
+browser.runtime.onMessage.addListener(message => {
+  if (message.type === "TAB_LANGUAGE") {
+    translatePage(message.language)
+  }
+})

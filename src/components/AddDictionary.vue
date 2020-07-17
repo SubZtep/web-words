@@ -39,18 +39,15 @@ export default Vue.extend({
       const dict: Dict = {}
       this.txt.split("\n").forEach(row => {
         const cols = row.split("\t").map(col => col.trim().toLowerCase())
-        const key = cols.shift() + "-" + cols.shift()
-        if (/.+-.+/.test(key)) {
-          if (dict[key] === undefined) {
-            dict[key] = []
-          }
-          dict[key].push(cols)
+        if (cols.length === 4) {
+          const [fromLang, toLang] = [cols.shift()!, cols.shift()!]
+          if (dict[fromLang] === undefined) dict[fromLang] = {}
+          if (dict[fromLang][toLang] === undefined) dict[fromLang][toLang] = []
+          dict[fromLang][toLang].push(cols)
         }
       })
-      for (const [langs, words] of Object.entries(dict)) {
-        const obj = {} as { [key: string]: string[][] }
-        obj[`dict-${langs}`] = words
-        await browser.storage.local.set(obj)
+      for (const [fromLang, toLangs] of Object.entries(dict)) {
+        await browser.storage.local.set({ [fromLang]: toLangs })
       }
       this.loading = false
     },
