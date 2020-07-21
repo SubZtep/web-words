@@ -2,8 +2,9 @@
 v-card(flat)
   v-card-text
     div(v-if="!loading")
+      v-btn.mb-6(block color="warning" @click="autoImport()" :elevation="6" large) Auto-Import
       .body-1 {{ pasteDictionary }}
-      v-textarea(outlined full-width v-model="txt")
+      v-textarea(outlined full-width dense v-model="txt")
       v-btn(block color="primary" @click="saveDict()") {{ saveDictionary }}
     div(v-else)
       | {{ loadingText }}
@@ -51,6 +52,10 @@ export default Vue.extend({
         await browser.storage.local.set({ [fromLang]: toLangs })
       }
       this.loading = false
+    },
+
+    autoImport() {
+      browser.runtime.sendMessage({ type: "IMPORT_DICT" })
     },
   },
 })

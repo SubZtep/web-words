@@ -112,6 +112,7 @@ Zul
 */
 
 export const languageName = (code: string): string | undefined => {
+  code = code.trim().toLowerCase()
   switch (code) {
     case "en":
       return "english"
