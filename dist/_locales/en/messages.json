@@ -1,10 +1,10 @@
 {
   "extName": {
     "message": "Web Words",
-    "description": "Extension name in various places."
+    "description": "Extension name in various places"
   },
   "extDescription": {
-    "message": "Word translator browser extension."
+    "message": "Word translator browser extension"
   },
   "importDict": {
     "message": "Import Dict"

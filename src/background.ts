@@ -1,4 +1,3 @@
-import browser from "webextension-polyfill"
 import { languageName } from "./utils"
 import { Dict } from "./types"
 

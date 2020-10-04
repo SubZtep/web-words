@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill"
-
 const importDict = () => {
   browser.runtime.sendMessage({ type: "IMPORT_DICT" })
 }

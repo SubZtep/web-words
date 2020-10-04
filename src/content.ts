@@ -1,4 +1,3 @@
-import browser from "webextension-polyfill"
 import { Dict, Words } from "./types"
 
 const translatePage = async (language: string) => {
