@@ -6,13 +6,7 @@
   "extDescription": {
     "message": "Word translator browser extension."
   },
-  "pasteDictionary": {
-    "message": "Paste dictionary data below. [link to doc]"
-  },
-  "saveDictionary": {
-    "message": "Save Dictionary"
-  },
-  "loading": {
-    "message": "Loading"
+  "importDict": {
+    "message": "Import Dict"
   }
 }

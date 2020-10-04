@@ -2,6 +2,8 @@
 
 Word translator browser extension using custom phrases in Google Translate format
 
+[Save Google Translation History!](https://support.google.com/translate/answer/9729699)
+
 ## Project setup
 
 ```
@@ -35,3 +37,7 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Assets
+
+Icon: https://fontawesome.com/icons/language?style=regular

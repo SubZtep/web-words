@@ -1,4 +1,4 @@
-import * as parser from "@/assets/parser"
+import * as parser from "../../src/utils"
 
 describe("Parser", () => {
   it("basic html", () => {

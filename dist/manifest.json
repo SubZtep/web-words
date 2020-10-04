@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "Web Words",
+  "version": "0.2.0",
+  "default_locale": "en",
+  "description": "Word translator browser extension",
+  "icons": {
+    "128": "language-regular.svg"
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Web Words Browser Action",
+    "default_icon": {
+      "128": "language-regular.svg"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "run_at": "document_idle",
+      "css": ["web-words.css"],
+      "js": ["content-script.js"]
+    }
+  ],
+  "permissions": ["<all_urls>", "activeTab", "storage", "webRequest", "webRequestBlocking"]
+}

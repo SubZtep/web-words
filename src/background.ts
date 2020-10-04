@@ -1,10 +1,11 @@
-import { languageName } from "@/assets/lang"
-import { Dict } from "./assets/types"
+import browser from "webextension-polyfill"
+import { languageName } from "./utils"
+import { Dict } from "./types"
+
 let dictTabId: number | undefined
 let dictData: string
 
 const saveDict = async (words: string[][]) => {
-  //TODO: don't multiply code with AddDictionary.vue
   const dict: Dict = {}
   words.forEach(([, fromCode, toCode, fromWord, toWord]) => {
     const fromLang = languageName(fromCode)

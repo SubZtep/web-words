@@ -1,4 +1,5 @@
-import { Dict, Words } from "@/assets/types"
+import browser from "webextension-polyfill"
+import { Dict, Words } from "./types"
 
 const translatePage = async (language: string) => {
   console.time("web-words")
