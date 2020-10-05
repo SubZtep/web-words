@@ -4,9 +4,12 @@
     "description": "Extension name in various places"
   },
   "extDescription": {
-    "message": "Word translator browser extension"
+    "message": "Show translated words on webpages with Google Translate saved phrases on a tooltip."
   },
   "importDict": {
-    "message": "Import Dict"
+    "message": "🚪 OPEN GOOGLE TRANSLATE AND COPY logged in user's ⭐ starred words into your browser local storage. 🔒"
+  },
+  "importDictGO": {
+    "message": "(¯`·._.·(¯`·._.· GO, DO ·._.·´¯)·._.·´¯)"
   }
 }

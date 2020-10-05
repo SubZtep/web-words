@@ -41,6 +41,9 @@ const collectDictData = (requestDetails: any) => {
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
   switch (message.type) {
+    /**
+     * Detect current page language and send msg
+     */
     case "ASK_LANGUAGE":
       if (sender.tab?.id) {
         const code = await browser.tabs.detectLanguage()
@@ -50,6 +53,9 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         }
       }
       break
+    /**
+     * Set Word Count on the Badge
+     */
     case "WORDS_FOUND":
       if (sender.tab?.id) {
         browser.browserAction.setBadgeText({
@@ -58,6 +64,9 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         })
       }
       break
+    /**
+     * Create new tab
+     */
     case "IMPORT_DICT":
       dictData = ""
       const tab = await browser.tabs.create({ url: "https://translate.google.com/#view=saved" })

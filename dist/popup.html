@@ -4,12 +4,32 @@
 <style>
   html,
   body {
-    width: 1500px;
-    height: 100px;
+    width: 500px;
+    height: 250px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 1rem;
+    background-color: red;
+    color: aliceblue;
+    line-height: 1.5rem;
+    text-shadow: 1px 3px black;
+    margin: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(138,3,3,1) 50%, rgba(0,0,0,1) 52%, rgba(255,0,0,1) 60%);
+  }
+  button {
+    margin: 1.5rem auto;
+    border-width: 1rem;
+    padding: 1rem 5rem;
+    border-radius: 6px;
+    display: block;
+    font-family: Impact, Charcoal, sans-serif;
   }
 </style>
 
-<h1>Popup</h1>
+<div style="display: flex; align-items: center;">
+  <h2>Web Words</h2>
+  <div style="margin: 1rem; color: lime; text-shadow: 0 2px blue;">Refresh Your Local Word Dataset Here!</div>
+</div>
 
-<p>Hello, world!</p>
-<button id="importDict"></button>
+<div id="importDict"></div>
+
+<button id="importDictGO" autofocus></button>
