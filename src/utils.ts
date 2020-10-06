@@ -1,3 +1,41 @@
+// Content
+
+export const isLatin = (word: string) => !/[^\u0000-\u00ff]/.test(word)
+
+export const splitWords = (str: string): string[] =>
+  str
+    ?.split(/(\b\w+\b)/)
+    .map(w => w.trim())
+    .filter(Boolean) ?? []
+
+/**
+ * The node is normal text
+ */
+export const translatable = (node: Node) => {
+  const parent = node.parentNode
+  return parent !== null && !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
+}
+
+/**
+ * @param word Text on the webpage
+ */
+export const spanFactory = (word: string, title: string) => {
+  const span = document.createElement("span")
+  span.className = "web-words-item"
+  span.title = title
+  span.innerText = word
+  return span
+}
+
+export const replaceWithParts = (node: Node, parts: Node[]) => {
+  const group = document.createElement("span")
+  parts!.forEach(part => void group.appendChild(part))
+  group.normalize()
+  node.parentNode?.replaceChild(group, node)
+}
+
+// Etc
+
 export const parse = (html: string) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, "text/html")

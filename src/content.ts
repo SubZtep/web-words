@@ -1,16 +1,8 @@
 import { Dict, Words } from "./types"
+import { isLatin, splitWords, spanFactory, translatable, replaceWithParts } from "./utils"
 
-const translatePage = async (language: string) => {
+export const translatePage = async (words: Words) => {
   console.time("web-words")
-
-  const dict: Dict = await browser.storage.local.get(language)
-  if (dict[language] === undefined) {
-    console.log("No dict")
-    return
-  }
-
-  // Drop (rare) multiply translated words for now.
-  const words: Words = Object.fromEntries(Object.values(dict[language]).flat())
 
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   let node = walker.nextNode()
@@ -22,18 +14,67 @@ const translatePage = async (language: string) => {
 
   do {
     let found = false
-
     if (translatable(node)) {
-      chunks = node.nodeValue?.split(/(\b\w+\b)/).filter(Boolean) ?? []
+      chunks = splitWords(node.nodeValue ?? "")
+
       nodeParts = chunks.map(chunk => {
-        const toLang = words[chunk.toLowerCase()]
-        if (toLang !== undefined) {
-          found = true
-          count++
-          return spanFactory(chunk, toLang)
+        if (isLatin(chunk)) {
+          // Test for exact match
+          const toLang = words[chunk]
+          if (toLang !== undefined) {
+            found = true
+            count++
+            return spanFactory(chunk, toLang)
+          }
+        } else {
+          // Test word exists in the text
+
+          // console.log("XXX", words)
+          const returns = []
+          let word
+          for (word of Object.keys(words).sort((a, b) => b.length - a.length)) {
+            if (chunk === word) {
+              returns.push(spanFactory(chunk, word))
+              continue
+            }
+
+            const chunkPieces = [chunk]
+
+            const splitted = chunk.split(word)
+            if (splitted.length === 1) {
+              continue
+            }
+
+            for (const split of splitted) {
+              if (split === word) {
+                //
+              }
+            }
+          }
+
+          // Object.keys(words).forEach(word => {
+          //   if (chunk === word) {
+          //     return spanFactory(chunk, word)
+          //   }
+          //   const splitted = chunk.split(word)
+          //   if (splitted.length > 1) {
+          //     console.log(chunk)
+          //   }
+          //   // if (word === "美國") {
+          //   //   console.log(chunk, chunk.indexOf(word))
+          //   //   // console.log([word, chunk, chunk.indexOf(word)])
+          //   // }
+          //   // if (chunk.indexOf(word) !== -1) {
+          //   //   console.log("JUGHUUUU")
+          //   // }
+          // })
         }
         return document.createTextNode(chunk)
       })
+
+      // if (nodeParts.length > 0) {
+      //   console.log("XCXXXX", nodeParts)
+      // }
     }
 
     const next = walker.nextNode()
@@ -50,30 +91,21 @@ const translatePage = async (language: string) => {
   console.timeEnd("web-words")
 }
 
-const spanFactory = (word: string, title: string) => {
-  const span = document.createElement("span")
-  span.className = "web-words-item"
-  span.title = title
-  span.innerText = word
-  return span
-}
-
-const translatable = (node: Node) => {
-  const parent = node.parentNode
-  return parent !== null && !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
-}
-
-const replaceWithParts = (node: Node, parts: Node[]) => {
-  const group = document.createElement("span")
-  parts!.forEach(part => void group.appendChild(part))
-  group.normalize()
-  node.parentNode?.replaceChild(group, node)
+const startTranslate = async (language: string) => {
+  const dict: Dict = await browser.storage.local.get(language)
+  if (dict[language] === undefined) {
+    console.log("No dict")
+    return
+  }
+  // Drop multiply translated words for now.
+  const words: Words = Object.fromEntries(Object.values(dict[language]).flat())
+  translatePage(words)
 }
 
 browser.runtime.sendMessage({ type: "ASK_LANGUAGE" })
 
 browser.runtime.onMessage.addListener(message => {
   if (message.type === "TAB_LANGUAGE") {
-    translatePage(message.language)
+    startTranslate(message.language)
   }
 })

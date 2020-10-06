@@ -45,3 +45,5 @@ Size:   Manifest - Icons:   chrome.browserAction:
 48      Yes                 No
 128     Yes                 No
 ```
+
+https://bugs.chromium.org/p/chromium/issues/detail?id=487422
