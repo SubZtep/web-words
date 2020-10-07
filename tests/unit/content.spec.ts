@@ -3,7 +3,7 @@ const findWords = (chunks: string[], word: string) => {
   let chunk: string
   let splitted: string[]
   let spit: string
-  let lastSpit: string
+  let i: number
 
   for (chunk of chunks) {
     if (chunk.charAt(0) === ".") {
@@ -12,29 +12,29 @@ const findWords = (chunks: string[], word: string) => {
     }
 
     splitted = chunk.split(word)
-    lastSpit = splitted.pop()
+    i = splitted.length
 
     for (spit of splitted) {
       if (spit !== "") {
         newChunks.push(spit)
       }
-      newChunks.push(`.${word}`)
-    }
-    if (lastSpit !== "") {
-      newChunks.push(lastSpit)
+      if (--i > 0) {
+        newChunks.push(`.${word}`)
+      }
     }
   }
 
   return newChunks
 }
 
-describe("content", () => {
+describe("find words in text", () => {
   const cases = [
     [["a"], ["a"], [".a"]],
     [["b"], ["a"], ["b"]],
     [["ab"], ["a"], [".a", "b"]],
     [["ab"], ["a", "b"], [".a", ".b"]],
     [["bbaxxbxxc"], ["a", "b", "bb", "c"], [".bb", ".a", "xx", ".b", "xx", ".c"]],
+    [["bbaxxbbbxxc"], ["a", "b", "bb", "c"], [".bb", ".a", "xx", ".bb", ".b", "xx", ".c"]],
   ]
 
   test.each(cases)(`chunckcheck %p`, (chunks, words, ret) => {
