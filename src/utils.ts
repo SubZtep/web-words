@@ -2,14 +2,17 @@
 
 export const isLatin = (word: string) => !/[^\u0000-\u00ff]/.test(word)
 
-export const splitWords = (str: string): string[] =>
+/**
+ * Get list of words from a text.
+ */
+export const splitToWords = (str: string): string[] =>
   str
     ?.split(/(\b\w+\b)/)
     .map(w => w.trim())
     .filter(Boolean) ?? []
 
 /**
- * The node is normal text
+ * The node is a human readable text.
  */
 export const translatable = (node: Node) => {
   const parent = node.parentNode
@@ -19,7 +22,7 @@ export const translatable = (node: Node) => {
 /**
  * @param word Text on the webpage
  */
-export const spanFactory = (word: string, title: string) => {
+export const spanFactory = (word: string, title: string): Node => {
   const span = document.createElement("span")
   span.className = "web-words-item"
   span.title = title
@@ -27,6 +30,9 @@ export const spanFactory = (word: string, title: string) => {
   return span
 }
 
+/**
+ * Replace a node with a _group node_ that contains parts.
+ */
 export const replaceWithParts = (node: Node, parts: Node[]) => {
   const group = document.createElement("span")
   parts!.forEach(part => void group.appendChild(part))

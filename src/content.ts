@@ -1,91 +1,93 @@
-import { Dict, Words } from "./types"
-import { isLatin, splitWords, spanFactory, translatable, replaceWithParts } from "./utils"
+import { isLatin, splitToWords, spanFactory, translatable, replaceWithParts } from "./utils"
 
-export const translatePage = async (words: Words) => {
-  console.time("web-words")
+const findWords = (chunks: (string | Node)[], word: string, translated: string) => {
+  const newChunks = []
+  let chunk: string | Node
+  let splitted: string[]
+  let spit: string
+  let i: number
 
+  for (chunk of chunks) {
+    if (typeof chunk !== "string") {
+      newChunks.push(chunk)
+      continue
+    }
+
+    splitted = chunk.split(word)
+    i = splitted.length
+
+    for (spit of splitted) {
+      if (spit !== "") {
+        newChunks.push(spit)
+      }
+      if (--i > 0) {
+        newChunks.push(spanFactory(word, translated))
+      }
+    }
+  }
+
+  return newChunks
+}
+
+const translatePage = async (wordList: Words) => {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   let node = walker.nextNode()
   if (!node) return
 
-  let count = 0
+  console.time("web-words")
+  const fromWordList = Object.keys(wordList).sort((a, b) => b.length - a.length)
+
+  let foundCount = 0
   let chunks: string[]
-  let nodeParts: Node[]
+  let nodeSlices: (Node | Node[])[] = []
+  let returns: (string | Node)[]
 
   do {
     let found = false
-    if (translatable(node)) {
-      chunks = splitWords(node.nodeValue ?? "")
+    if (node.nodeValue && translatable(node)) {
+      chunks = splitToWords(node.nodeValue)
 
-      nodeParts = chunks.map(chunk => {
+      nodeSlices = chunks.map(chunk => {
         if (isLatin(chunk)) {
-          // Test for exact match
-          const toLang = words[chunk]
+          // console.log("Test for exact word match")
+          const toLang = wordList[chunk]
           if (toLang !== undefined) {
             found = true
-            count++
+            foundCount++
             return spanFactory(chunk, toLang)
           }
         } else {
-          // Test word exists in the text
-
-          // console.log("XXX", words)
-          const returns = []
-          let word
-          for (word of Object.keys(words).sort((a, b) => b.length - a.length)) {
-            if (chunk === word) {
-              returns.push(spanFactory(chunk, word))
-              continue
-            }
-
-            const chunkPieces = [chunk]
-
-            const splitted = chunk.split(word)
-            if (splitted.length === 1) {
-              continue
-            }
-
-            for (const split of splitted) {
-              if (split === word) {
-                //
-              }
-            }
+          //console.log("Test word exists in the full text", chunk)
+          returns = [chunk]
+          for (const fromWord of fromWordList) {
+            returns = findWords(returns, fromWord, wordList[fromWord])
           }
 
-          // Object.keys(words).forEach(word => {
-          //   if (chunk === word) {
-          //     return spanFactory(chunk, word)
-          //   }
-          //   const splitted = chunk.split(word)
-          //   if (splitted.length > 1) {
-          //     console.log(chunk)
-          //   }
-          //   // if (word === "美國") {
-          //   //   console.log(chunk, chunk.indexOf(word))
-          //   //   // console.log([word, chunk, chunk.indexOf(word)])
-          //   // }
-          //   // if (chunk.indexOf(word) !== -1) {
-          //   //   console.log("JUGHUUUU")
-          //   // }
-          // })
+          returns = returns.map(item => {
+            if (typeof item === "string") {
+              return document.createTextNode(item)
+            }
+
+            found = true
+            foundCount++
+            return item
+          })
+
+          return returns as Node[]
         }
         return document.createTextNode(chunk)
       })
-
-      // if (nodeParts.length > 0) {
-      //   console.log("XCXXXX", nodeParts)
-      // }
     }
 
     const next = walker.nextNode()
     if (found) {
-      replaceWithParts(node, nodeParts!)
+      replaceWithParts(node, nodeSlices.flat())
     }
     node = next
   } while (node)
 
-  if (count > 0) {
-    browser.runtime.sendMessage({ type: "WORDS_FOUND", count })
+  if (foundCount > 0) {
+    browser.runtime.sendMessage({ type: "WORDS_FOUND", count: foundCount })
   }
 
   console.timeEnd("web-words")
@@ -94,10 +96,10 @@ export const translatePage = async (words: Words) => {
 const startTranslate = async (language: string) => {
   const dict: Dict = await browser.storage.local.get(language)
   if (dict[language] === undefined) {
-    console.log("No dict")
+    console.warn("No dict")
     return
   }
-  // Drop multiply translated words for now.
+  //TODO: Handle words with multiple languge translations.
   const words: Words = Object.fromEntries(Object.values(dict[language]).flat())
   translatePage(words)
 }

@@ -1,5 +1,5 @@
 import { languageName } from "./utils"
-import { Dict } from "./types"
+import { Dict } from "./types/types"
 
 let dictTabId: number | undefined
 let dictData: string
