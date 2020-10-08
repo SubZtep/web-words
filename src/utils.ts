@@ -25,7 +25,7 @@ export const translatable = (node: Node) => {
 export const spanFactory = (word: string, title: string): Node => {
   const span = document.createElement("span")
   span.className = "web-words-item"
-  span.title = title
+  span.setAttribute("data-tooltip", title)
   span.innerText = word
   return span
 }
