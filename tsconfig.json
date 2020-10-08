@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "noImplicitAny": false,
     "importHelpers": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -11,6 +12,6 @@
     "baseUrl": ".",
     "typeRoots": ["src/types", "node_modules/@types"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/types/types.ts", "tests/x.ts"],
   "exclude": ["node_modules"],
 }

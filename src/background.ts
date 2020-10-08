@@ -1,25 +1,32 @@
-import { languageName } from "./utils"
-import { Dict } from "./types/types"
+import { langCode } from "./utils"
 
-let dictTabId: number | undefined
-let dictData: string
-
-const simpleCode = (code: string) => code.split("-")[0]
+let lastTabID = -1
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
+  console.log("BACKGROUND", message)
   switch (message.type) {
+    /**
+     * Fordward message to content page
+     */
+    case "GET_CONTENT_STATE":
+      browser.tabs.sendMessage(lastTabID, message)
+      break
+    /**
+     * Fordward message to popup
+     */
+    case "CONTENT_STATE":
+      browser.runtime.sendMessage(message)
+      break
     /**
      * Detect current page language and send msg
      */
     case "ASK_LANGUAGE":
       if (sender.tab?.id) {
-        let language = await browser.tabs.detectLanguage()
-        language = simpleCode(language)
-        browser.tabs.sendMessage(sender.tab.id, { type: "TAB_LANGUAGE", language })
-        // const language = languageName(code)
-        // if (language) {
-        //   browser.tabs.sendMessage(sender.tab.id, { type: "TAB_LANGUAGE", language })
-        // }
+        lastTabID = sender.tab.id
+        browser.tabs.sendMessage(sender.tab.id, {
+          type: "TAB_LANGUAGE",
+          language: langCode(await browser.tabs.detectLanguage()),
+        })
       }
       break
     /**
@@ -37,31 +44,35 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
      * Create new tab
      */
     case "IMPORT_DICT":
-      dictData = ""
       const tab = await browser.tabs.create({ url: "https://translate.google.com/#view=saved" })
-      dictTabId = tab.id
 
       browser.webRequest.onCompleted.addListener(
         async ({ url }) => {
           const res = await fetch(url)
+          if (!res.ok) return
+
           const data = await res.json()
-          browser.storage.local.clear()
           const dict: Dict = {}
+          browser.storage.local.clear()
+
+          // parse
           data[2].forEach(([, fromLang, toLang, fromWord, toWord]: string[]) => {
-            fromLang = simpleCode(fromLang)
-            toLang = simpleCode(toLang)
+            fromLang = langCode(fromLang)
+            toLang = langCode(toLang)
             if (dict[fromLang] === undefined) dict[fromLang] = {}
             if (dict[fromLang][toLang] === undefined) dict[fromLang][toLang] = []
             dict[fromLang][toLang].push([fromWord, toWord])
           })
+
+          // save
           for (const [fromLang, toLangs] of Object.entries(dict)) {
             await browser.storage.local.set({ [fromLang]: toLangs })
-            console.log({ [fromLang]: toLangs })
           }
-          await browser.tabs.remove(dictTabId as number)
+
+          await browser.tabs.remove(tab.id!)
         },
         {
-          tabId: dictTabId,
+          tabId: tab.id,
           urls: ["*://*/*/sg?*"],
         },
         ["responseHeaders"]

@@ -1,9 +1,16 @@
 # Web Words :construction: _browser extension_
 
-Show translated words on webpages with _Google Translate_ saved phrases on a tooltip.
+Show translated words on a tooltip on webpages with _Google Translate_ saved phrases.
+
+## Social
 
 :information_source: [HOWTO Save Google Translation History](https://support.google.com/translate/answer/9729699)
 
+## Development
+
+Aye.
+
+### CLI Commands
 
 ```bash
 # Project setup
@@ -16,7 +23,7 @@ npm run dev
 npm run build
 
 # Run your unit tests
-npm run test
+npm test
 
 # Lints and fixes files
 npm run lint
@@ -26,24 +33,11 @@ npm run lint-fix
 npm run postinstall
 ```
 
-## Icon
+## Asset
 
-> * * Asset: https://fontawesome.com/icons/language?style=regular
-> * * App: https://preview.npmjs.com/package/svg-app-icon
-> * * Sizes: https://stackoverflow.com/a/60184542/1398275
+* App icon: [svg](https://fontawesome.com/icons/language?style=regular) · [parser](https://preview.npmjs.com/package/svg-app-icon) · [sizes](https://stackoverflow.com/a/60184542/1398275)
 
-```bash
-$ sed 's/currentColor/yellow/' assets/language-regular.svg | npx svg-app-icon -i png -d dist/icons -s 16 -s 24 -s 32 -s 48 -s 128
-```
+## Related _3rd party_ Issues
 
-```
-Size:   Manifest - Icons:   chrome.browserAction:
-
-16      Yes                 Yes
-24      No                  Yes
-32      Yes                 Yes
-48      Yes                 No
-128     Yes                 No
-```
-
-https://bugs.chromium.org/p/chromium/issues/detail?id=487422
+- [Google Translate Phrasebook API, which grants an access users' saved translations](https://issuetracker.google.com/issues/35881350)
+- [WebRequest API: allow extensions to read response body](https://bugs.chromium.org/p/chromium/issues/detail?id=487422)

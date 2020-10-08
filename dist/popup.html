@@ -5,15 +5,17 @@
   html,
   body {
     width: 500px;
-    height: 250px;
+    /*height: 5px;*/
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     font-size: 1rem;
     background-color: red;
     color: aliceblue;
     line-height: 1.5rem;
+    background: linear-gradient(0deg, rgba(0,0,0,.6) 0%, rgba(138,3,3,.6) 50%, rgba(0,0,0,.6) 52%, rgba(255,0,0,.6) 100%);
+    user-select: none;
+  }
+  h2 {
     text-shadow: 1px 3px black;
-    margin: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(138,3,3,1) 50%, rgba(0,0,0,1) 52%, rgba(255,0,0,1) 60%);
   }
   button {
     margin: 1.5rem auto;
@@ -23,13 +25,29 @@
     display: block;
     font-family: Impact, Charcoal, sans-serif;
   }
+  p {
+    color: lightyellow;
+    text-shadow: 0 0 1px black;
+    -webkit-text-stroke: .6px black;
+  }
+  p span {
+    font-weight: bold;
+  }
 </style>
 
 <div style="display: flex; align-items: center;">
   <h2>Web Words</h2>
-  <div style="margin: 1rem; color: lime; text-shadow: 0 2px blue;">Refresh Your Local Word Dataset Here!</div>
+  <div style="margin: 1rem; color: lime; text-shadow: 0 1px 1px blue;">Refresh Your Local Word Dataset Here!</div>
 </div>
 
-<div id="importDict"></div>
+<h3>Data</h3>
+
+<p>
+  Active Tab Language: <span id="lang"></span><br />
+  Latin only: <span id="latin"></span>
+</p>
+
+<h3>Update</h3>
+<p id="importDict"></p>
 
 <button id="importDictGO" autofocus></button>

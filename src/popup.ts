@@ -1,20 +1,25 @@
-/**
- * GO Button Click
- */
-const importDictMessage = () => {
-  browser.runtime.sendMessage({ type: "IMPORT_DICT" })
+const msg = (type: "IMPORT_DICT" | "GET_CONTENT_STATE") =>
+  void browser.runtime.sendMessage({ type })
+
+const t = (id: string) => (word?: string) => {
+  const el = document.getElementById(id)
+  el!.innerText = word === undefined ? browser.i18n.getMessage(id) : word
+  return el
 }
 
-/**
- * Translate Popup HTML
- */
-const localeTranslate = () => {
-  const div = document.getElementById("importDict") as HTMLDivElement
-  const btn = document.getElementById("importDictGO") as HTMLButtonElement
-  div.innerText = browser.i18n.getMessage("importDict")
-  btn.textContent = browser.i18n.getMessage("importDictGO")
+const main = () => {
+  t("importDict")()
+  t("importDictGO")()!.addEventListener("click", () => msg("IMPORT_DICT"))
 
-  btn.addEventListener("click", importDictMessage)
+  browser.runtime.onMessage.addListener(message => {
+    console.log("POPUP", message)
+    if (message.type === "CONTENT_STATE") {
+      const state: ContentState = message.state
+      t("lang")(state.language ?? "n/a")
+      t("latin")(state.latin ? "yes" : "no")
+    }
+  })
+  msg("GET_CONTENT_STATE")
 }
 
-document.addEventListener("DOMContentLoaded", localeTranslate)
+document.addEventListener("DOMContentLoaded", main)

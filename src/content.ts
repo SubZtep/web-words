@@ -1,7 +1,12 @@
 import { isLatin, splitToWords, spanFactory, translatable, replaceWithParts } from "./utils"
 
+const state: ContentState = {
+  language: undefined,
+  latin: true,
+}
+
 const findWords = (chunks: (string | Node)[], word: string, translated: string) => {
-  const newChunks = []
+  const newChunks: (string | Node)[] = []
   let chunk: string | Node
   let splitted: string[]
   let spit: string
@@ -39,6 +44,7 @@ const translatePage = async (wordList: Words) => {
 
   let foundCount = 0
   let chunks: string[]
+  let fromWord: string
   let nodeSlices: (Node | Node[])[] = []
   let returns: (string | Node)[]
 
@@ -48,18 +54,22 @@ const translatePage = async (wordList: Words) => {
       chunks = splitToWords(node.nodeValue)
 
       nodeSlices = chunks.map(chunk => {
-        if (isLatin(chunk)) {
-          // console.log("Test for exact word match")
+        // const latinEngine = isLatin(chunk)
+        const latinEngine = true
+
+        if (latinEngine) {
           const toLang = wordList[chunk]
+          // if (toLang) console.log("LATIN", [chunk, toLang])
           if (toLang !== undefined) {
             found = true
             foundCount++
             return spanFactory(chunk, toLang)
           }
         } else {
-          //console.log("Test word exists in the full text", chunk)
+          console.log("NON-LATIN", chunk)
+          state.latin = false
           returns = [chunk]
-          for (const fromWord of fromWordList) {
+          for (fromWord of fromWordList) {
             returns = findWords(returns, fromWord, wordList[fromWord])
           }
 
@@ -104,10 +114,19 @@ const startTranslate = async (language: string) => {
   translatePage(words)
 }
 
-browser.runtime.sendMessage({ type: "ASK_LANGUAGE" })
-
 browser.runtime.onMessage.addListener(message => {
-  if (message.type === "TAB_LANGUAGE") {
-    startTranslate(message.language)
+  console.log("CONTENT", message)
+  switch (message.type) {
+    case "TAB_LANGUAGE":
+      state.language = message.language as string
+      startTranslate(state.language)
+      break
+    case "GET_CONTENT_STATE":
+      browser.runtime.sendMessage({ type: "CONTENT_STATE", state })
+      break
   }
 })
+
+// First step is ask language from the background script.
+// If we have it then the translation can happen.
+browser.runtime.sendMessage({ type: "ASK_LANGUAGE" })
