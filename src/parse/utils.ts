@@ -1,17 +1,8 @@
 /**
- * Tells if provided chunk's characters are latin or chinese-like.
- * For the later don't try to split the text to words, search in it instead.
- */
-export const isLatin = (chunk: string) => !/[^\u0000-\u0900]/.test(chunk)
-
-/**
  * Get list of words from a text.
  */
 export const splitToWords = (str: string): string[] =>
-  str
-    ?.split(/(\b\w+\b)/)
-    //.map(w => w.trim())
-    .filter(Boolean) ?? []
+  str?.split(/(\b\w+\b)/).filter(w => w.trim().length > 0) ?? []
 
 /**
  * The node is a human readable text.
@@ -27,8 +18,7 @@ export const translatable = (node: Node) => {
  */
 export const spanFactory = (word: string, title: string): Node => {
   const span = document.createElement("span")
-  span.className = "web-words-item"
-  span.setAttribute("data-tooltip", title)
+  span.setAttribute("data-webwords", title)
   span.innerText = word
   return span
 }
@@ -42,11 +32,6 @@ export const replaceWithParts = (node: Node, parts: Node[]) => {
   group.normalize()
   node.parentNode?.replaceChild(group, node)
 }
-
-/**
- * Simplify code, so a detected website language match with language from the translator.
- */
-export const langCode = (detectedLanguage: string) => detectedLanguage.split("-")[0]
 
 /**
  * Find and translate a word in a text

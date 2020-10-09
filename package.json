@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "generate-icons": "sed 's/currentColor/red/' assets/language-duotone.svg | svg-app-icon -i png -d dist/icons -s 16 -s 24 -s 32 -s 48 -s 128",
-    "copy-polyfill": "cp node_modules/webextension-polyfill/dist/browser-polyfill.min.js* dist/",
+    "copy-polyfill": "head -n 1 node_modules/webextension-polyfill/dist/browser-polyfill.min.js > dist/browser-polyfill.min.js",
     "wipe": "rm -rf node_modules/ dist/icons/ dist/*.js dist/*.map package-lock.json",
     "postinstall": "concurrently \"npm:copy-polyfill\" \"npm:generate-icons\" \"npm:dev-build\""
   },

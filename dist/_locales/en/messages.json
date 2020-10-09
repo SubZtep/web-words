@@ -4,7 +4,7 @@
     "description": "Extension name in various places"
   },
   "extDescription": {
-    "message": "Show translated words on webpages with Google Translate saved phrases on a tooltip."
+    "message": "Show translated words on a tooltip using Google Translate saved phrases."
   },
   "importDict": {
     "message": "🚪 OPEN GOOGLE TRANSLATE, copy logged in user's ⭐ starred words into your browser local storage 🔒 and close it quickly."

@@ -1,28 +1,16 @@
-.web-words-item {
+[data-webwords] {
+  text-indent: 0;
   display: inline-block;
-  color: #191970;
-  /*background-color: #add8e6;*/
-  background-color: yellow;
-  border-bottom: 2px dashed #dcae96;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-
-/**
- * Tooltip Styles
- * https://codepen.io/cbracco/pen/qzukg
- */
-
-/* Add this attribute to the element that needs a tooltip */
-[data-tooltip] {
+  background-color: red;
+  background: linear-gradient(0deg, rgba(8,0,0,1) 0%, rgba(255,0,0,0.8) 5%, rgba(255,0,0,0) 40%);
   position: relative;
-  z-index: 2;
-  cursor: pointer;
+  z-index: 200;
+  cursor: help;
 }
 
 /* Hide the tooltip content by default */
-[data-tooltip]:before,
-[data-tooltip]:after {
+[data-webwords]:before,
+[data-webwords]:after {
   visibility: hidden;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -31,7 +19,7 @@
 }
 
 /* Position tooltip above the element */
-[data-tooltip]:before {
+[data-webwords]:before {
   position: absolute;
   bottom: 150%;
   left: 50%;
@@ -45,14 +33,14 @@
   background-color: #000;
   background-color: hsla(0, 0%, 20%, 0.9);
   color: #fff;
-  content: attr(data-tooltip);
+  content: attr(data-webwords);
   text-align: center;
   font-size: 14px;
   line-height: 1.2;
 }
 
 /* Triangle hack to make tooltip look like a speech bubble */
-[data-tooltip]:after {
+[data-webwords]:after {
   position: absolute;
   bottom: 150%;
   left: 50%;
@@ -68,8 +56,8 @@
 }
 
 /* Show tooltip content on hover */
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
+[data-webwords]:hover:before,
+[data-webwords]:hover:after {
   visibility: visible;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
