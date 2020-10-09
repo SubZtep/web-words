@@ -1,11 +1,4 @@
-import {
-  isLatin,
-  findWords,
-  splitToWords,
-  spanFactory,
-  translatable,
-  replaceWithParts,
-} from "./utils"
+import { findWords, splitToWords, spanFactory, translatable, replaceWithParts } from "./utils"
 
 const state: ContentState = {
   language: undefined,
@@ -19,7 +12,7 @@ const translatePage = async (wordList: Words) => {
 
   console.time("web-words")
   const fromWordList = Object.keys(wordList).sort((a, b) => b.length - a.length)
-
+  let words: string[]
   let found: boolean
   let foundCount = 0
   let nodeSlices: Node[]
@@ -27,15 +20,9 @@ const translatePage = async (wordList: Words) => {
   do {
     found = false
     if (node.nodeValue && translatable(node)) {
-      const latinEngine = isLatin(node.nodeValue)
-      // const latinEngine = false
-      if (!latinEngine) {
-        state.latin = false
-        console.log(node.nodeValue)
-      }
-
-      if (latinEngine) {
-        nodeSlices = splitToWords(node.nodeValue).map(chunk => {
+      words = splitToWords(node.nodeValue)
+      if (words.length > 1) {
+        nodeSlices = words.map(chunk => {
           const toLang = wordList[chunk]
           if (toLang !== undefined) {
             found = true
