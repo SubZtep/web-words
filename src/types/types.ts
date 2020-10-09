@@ -13,9 +13,3 @@ declare type Dict = {
 declare type Words = {
   [word: string]: string
 }
-
-declare type ContentState = {
-  language?: string
-  words: number
-  fulltext: number
-}

@@ -1,11 +1,5 @@
 import { findWords, splitToWords, spanFactory, translatable, replaceWithParts } from "./utils"
 
-const state: ContentState = {
-  language: undefined,
-  words: 0,
-  fulltext: 0,
-}
-
 const translatePage = async (wordList: Words) => {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   let node = walker.nextNode()
@@ -25,7 +19,6 @@ const translatePage = async (wordList: Words) => {
       value = node.nodeValue!
       words = splitToWords(value)
       if (words.length > 1) {
-        state.words++
         nodeSlices = words.map(chunk => {
           const toLang = wordList[chunk]
           if (toLang !== undefined) {
@@ -36,7 +29,6 @@ const translatePage = async (wordList: Words) => {
           return document.createTextNode(chunk)
         })
       } else {
-        state.fulltext++
         nodeSlices = findWords(value, wordList, fromWordList).map(item => {
           if (typeof item === "string") {
             return document.createTextNode(item)
@@ -77,11 +69,7 @@ browser.runtime.onMessage.addListener(message => {
   console.log("CONTENT", message)
   switch (message.type) {
     case "TAB_LANGUAGE":
-      state.language = message.language as string
-      startTranslate(state.language)
-      break
-    case "GET_CONTENT_STATE":
-      browser.runtime.sendMessage({ type: "CONTENT_STATE", state })
+      startTranslate(message.language as string)
       break
   }
 })

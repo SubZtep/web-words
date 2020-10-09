@@ -1,28 +1,13 @@
 import { langCode } from "./utils"
 
-let lastTabID = -1
-
 browser.runtime.onMessage.addListener(async (message, sender) => {
   console.log("BACKGROUND", message)
   switch (message.type) {
-    /**
-     * Fordward message to content page
-     */
-    case "GET_CONTENT_STATE":
-      browser.tabs.sendMessage(lastTabID, message)
-      break
-    /**
-     * Fordward message to popup
-     */
-    case "CONTENT_STATE":
-      browser.runtime.sendMessage(message)
-      break
     /**
      * Detect current page language and send msg
      */
     case "ASK_LANGUAGE":
       if (sender.tab?.id) {
-        lastTabID = sender.tab.id
         browser.tabs.sendMessage(sender.tab.id, {
           type: "TAB_LANGUAGE",
           language: langCode(await browser.tabs.detectLanguage()),
