@@ -17,6 +17,7 @@ export const splitToWords = (str: string): string[] =>
  * The node is a human readable text.
  */
 export const translatable = (node: Node) => {
+  if (!node.nodeValue || node.nodeValue.trim() === "") return false
   const parent = node.parentNode
   return parent !== null && !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
 }

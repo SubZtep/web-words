@@ -16,5 +16,6 @@ declare type Words = {
 
 declare type ContentState = {
   language?: string
-  latin: boolean
+  words: number
+  fulltext: number
 }

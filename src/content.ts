@@ -2,7 +2,8 @@ import { findWords, splitToWords, spanFactory, translatable, replaceWithParts } 
 
 const state: ContentState = {
   language: undefined,
-  latin: true,
+  words: 0,
+  fulltext: 0,
 }
 
 const translatePage = async (wordList: Words) => {
@@ -16,12 +17,15 @@ const translatePage = async (wordList: Words) => {
   let found: boolean
   let foundCount = 0
   let nodeSlices: Node[]
+  let value: string
 
   do {
     found = false
-    if (node.nodeValue && translatable(node)) {
-      words = splitToWords(node.nodeValue)
+    if (translatable(node)) {
+      value = node.nodeValue!
+      words = splitToWords(value)
       if (words.length > 1) {
+        state.words++
         nodeSlices = words.map(chunk => {
           const toLang = wordList[chunk]
           if (toLang !== undefined) {
@@ -32,7 +36,8 @@ const translatePage = async (wordList: Words) => {
           return document.createTextNode(chunk)
         })
       } else {
-        nodeSlices = findWords(node.nodeValue, wordList, fromWordList).map(item => {
+        state.fulltext++
+        nodeSlices = findWords(value, wordList, fromWordList).map(item => {
           if (typeof item === "string") {
             return document.createTextNode(item)
           }

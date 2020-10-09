@@ -16,7 +16,8 @@ const main = () => {
     if (message.type === "CONTENT_STATE") {
       const state: ContentState = message.state
       t("lang")(state.language ?? "n/a")
-      t("latin")(state.latin ? "yes" : "no")
+      t("words")(state.words.toString())
+      t("fulltext")(state.fulltext.toString())
     }
   })
   msg("GET_CONTENT_STATE")
