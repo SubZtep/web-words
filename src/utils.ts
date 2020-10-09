@@ -10,7 +10,7 @@ export const isLatin = (chunk: string) => !/[^\u0000-\u0900]/.test(chunk)
 export const splitToWords = (str: string): string[] =>
   str
     ?.split(/(\b\w+\b)/)
-    .map(w => w.trim())
+    //.map(w => w.trim())
     .filter(Boolean) ?? []
 
 /**
@@ -46,3 +46,50 @@ export const replaceWithParts = (node: Node, parts: Node[]) => {
  * Simplify code, so a detected website language match with language from the translator.
  */
 export const langCode = (detectedLanguage: string) => detectedLanguage.split("-")[0]
+
+/**
+ * Find and translate a word in a text
+ */
+export const findWord = (chunks: (string | Node)[], word: string, translated: string) => {
+  const newChunks: (string | Node)[] = []
+  let chunk: string | Node
+  let splitted: string[]
+  let spit: string
+  let i: number
+
+  for (chunk of chunks) {
+    if (typeof chunk !== "string") {
+      newChunks.push(chunk)
+      continue
+    }
+
+    splitted = chunk.split(word)
+    i = splitted.length
+
+    for (spit of splitted) {
+      if (spit !== "") {
+        newChunks.push(spit)
+      }
+      if (--i > 0) {
+        newChunks.push(spanFactory(word, translated))
+      }
+    }
+  }
+
+  return newChunks
+}
+
+/**
+ * Find and translate words in a text
+ */
+export const findWords = (nodeValue: string, wordList: Words, fromWordList?: string[]) => {
+  if (typeof fromWordList === "undefined") {
+    fromWordList = Object.keys(wordList).sort((a, b) => b.length - a.length)
+  }
+  let fromWord: string
+  let returns: (string | Node)[] = [nodeValue]
+  for (fromWord of fromWordList) {
+    returns = findWord(returns, fromWord, wordList[fromWord])
+  }
+  return returns
+}

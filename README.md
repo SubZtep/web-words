@@ -37,7 +37,7 @@ npm run postinstall
 
 * App icon: [svg](https://fontawesome.com/icons/language?style=regular) · [parser](https://preview.npmjs.com/package/svg-app-icon) · [sizes](https://stackoverflow.com/a/60184542/1398275)
 
-## Related _3rd party_ Issues
+## Related _3rd party_ Issues :mega:
 
 - [Google Translate Phrasebook API, which grants an access users' saved translations](https://issuetracker.google.com/issues/35881350)
 - [WebRequest API: allow extensions to read response body](https://bugs.chromium.org/p/chromium/issues/detail?id=487422)
