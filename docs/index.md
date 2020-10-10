@@ -10,7 +10,7 @@ If you logged in with your _Google_ account, you are able to save translations w
 
 []
 
-After a while you'll have too many words and there is a possibility of memorize them permanent immediately isn't on the _skills list_. The target audience.
+After a while you'll have too many words and there is a possibility of memorize them permanent immediately isn't on the _skills palette_ at the monent. The target audience.
 
 > (-(-\_(-\_-)\_-)-)
 
@@ -18,17 +18,19 @@ After a while you'll have too many words and there is a possibility of memorize 
 
 (—(‒\_(-_-)\_‒)—)
 
-This plugin manages to access to this list. When you open a webpage, [detect the language](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/detectLanguage) and search for word matches with your dictionary. If success translate them and display on a popup. At least try, the plugin is **beta** and under development, you are more than welcome to [report any issue](https://github.com/SubZtep/web-words/issues) and contribute.
+This plugin manages to access to this word list. **When you open a webpage, [detect the language](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/detectLanguage) and search for word matches with your dictionary.** If success translate them and display on a popup on mouse hover.
 
-Don't forget to update your local dictionary manually. Click the icon on the _browser action bar_ and press the button.
+At least try, the plugin is beta and under development. You are more than welcome to [report any issue](https://github.com/SubZtep/web-words/issues) and contribute.
+
+Don't forget to update the local dictionary manually. Click the icon on the _browser action bar_ and press the button.
 
 []
 
 ## How To Install
 
-### From Source
+### From source
 
-Clone the project locally and build with _NodeJS_. Add `dist` directory in the browser menu somewhere in dev mode.
+Clone the project locally and build with _NodeJS_. Add `dist/manifest.json` in the browser menu somewhere to add-ons in dev mode.
 
 ## Your Data
 
