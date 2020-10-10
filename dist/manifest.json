@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Web Words",
+  "name": "__MSG_extName__",
   "version": "0.2.0",
   "default_locale": "en",
   "description": "__MSG_extDescription__",
@@ -12,7 +12,7 @@
   },
   "browser_action": {
     "default_popup": "popup.html",
-    "default_title": "__MSG_extDescription__",
+    "default_title": "__MSG_extName__",
     "default_icon": {
       "16": "icons/16x16.png",
       "24": "icons/24x24.png",
