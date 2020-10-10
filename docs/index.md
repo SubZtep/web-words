@@ -10,7 +10,7 @@ If you logged in with your _Google_ account, you are able to save translations w
 
 []
 
-After a while you'll have too many words and there is a possibility of memorize them permanent immediately isn't on the _skills list_. They are the target audience.
+After a while you'll have too many words and there is a possibility of memorize them permanent immediately isn't on the _skills list_. The target audience.
 
 > (-(-\_(-\_-)\_-)-)
 
@@ -18,9 +18,9 @@ After a while you'll have too many words and there is a possibility of memorize 
 
 (—(‒\_(-_-)\_‒)—)
 
-This plugin manages to access to this list. When you open a webpage, it tries to [detect its language](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/detectLanguage). If success and found word(s) from the dictionary translate them. At least try, the plugin is **beta** and under development, you are more than welcome to [report any issue](https://github.com/SubZtep/web-words/issues).
+This plugin manages to access to this list. When you open a webpage, [detect the language](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/detectLanguage) and search for word matches with your dictionary. If success translate them and display on a popup. At least try, the plugin is **beta** and under development, you are more than welcome to [report any issue](https://github.com/SubZtep/web-words/issues) and contribute.
 
-You will need to update the local dictionary manually. Click the icon on the _browser action bar_ and press the button.
+Don't forget to update your local dictionary manually. Click the icon on the _browser action bar_ and press the button.
 
 []
 
@@ -48,11 +48,8 @@ All of them. It's up to the user's dictionary which languages are translate from
 
 The interface is english only atm but translatable easily.
 
-
 ---
 
-🔗 [./fun.md](./fun.md)
-
-٩(◕‿◕｡)۶
+🔗 [./fun.md](./fun.md) ٩(◕‿◕｡)۶
 
 ---
