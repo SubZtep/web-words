@@ -19,10 +19,11 @@ const translatePage = async (wordList: Words) => {
       words = splitToWords(value)
       if (words.length > 1) {
         nodeSlices = words.map(chunk => {
-          const toLang = wordList[chunk]
+          const toLang = wordList[chunk.toLowerCase()]
           if (toLang !== undefined) {
             found = true
             foundCount++
+            console.log("Word Match", [chunk, toLang])
             return spanFactory(chunk, toLang)
           }
           return document.createTextNode(chunk)
@@ -34,6 +35,7 @@ const translatePage = async (wordList: Words) => {
           }
           found = true
           foundCount++
+          console.log("Text Search", [value, item.textContent])
           return item
         })
       }

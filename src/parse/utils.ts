@@ -1,8 +1,7 @@
 /**
  * Get list of words from a text.
  */
-export const splitToWords = (str: string): string[] =>
-  str?.split(/(\b\w+\b)/).filter(w => w.trim().length > 0) ?? []
+export const splitToWords = (str: string): string[] => str?.split(/(\b\w+\b)/) ?? []
 
 /**
  * The node is a human readable text.

@@ -4,50 +4,34 @@
   background-color: red;
   background: linear-gradient(0deg, rgba(8,0,0,1) 0%, rgba(255,0,0,0.8) 5%, rgba(255,0,0,0) 40%);
   position: relative;
-  z-index: 200;
-  cursor: help;
 }
 
-/* Hide the tooltip content by default */
-[data-webwords]:before,
-[data-webwords]:after {
-  visibility: hidden;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Position tooltip above the element */
 [data-webwords]:before {
+  all: initial;
   position: absolute;
-  bottom: 150%;
+  bottom: 110%;
   left: 50%;
   margin-bottom: 5px;
-  margin-left: -80px;
-  padding: 7px;
-  width: 160px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #000;
-  background-color: hsla(0, 0%, 20%, 0.9);
+  margin-left: -75px;
+  padding: 4px;
+  width: 150px;
+  border-radius: 6px;
+  background-color: #8a0303;
   color: #fff;
-  content: attr(data-webwords);
+  font-family: 'Times New Roman', Times, serif;
   text-align: center;
-  font-size: 14px;
-  line-height: 1.2;
+  font-size: 16px;
+  letter-spacing: 1px;
+  content: attr(data-webwords);
 }
 
-/* Triangle hack to make tooltip look like a speech bubble */
 [data-webwords]:after {
   position: absolute;
-  bottom: 150%;
+  bottom: 110%;
   left: 50%;
   margin-left: -5px;
   width: 0;
-  border-top: 5px solid #000;
-  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-top: 5px solid #8a0303;
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
   content: " ";
@@ -55,11 +39,15 @@
   line-height: 0;
 }
 
-/* Show tooltip content on hover */
+[data-webwords]:before,
+[data-webwords]:after {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 [data-webwords]:hover:before,
 [data-webwords]:hover:after {
   visibility: visible;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }

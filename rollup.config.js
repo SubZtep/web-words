@@ -20,7 +20,7 @@ const plugins = [
 
 const output = {
   dir: "dist",
-  format: "esm",
+  // format: "esm",
 }
 
 if (isProd) {
