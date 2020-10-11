@@ -9,7 +9,7 @@
 [data-webwords]:before {
   all: initial;
   position: absolute;
-  bottom: 110%;
+  bottom: calc(110% - 10px);
   left: 50%;
   margin-bottom: 5px;
   margin-left: -75px;
@@ -27,7 +27,7 @@
 
 [data-webwords]:after {
   position: absolute;
-  bottom: 110%;
+  bottom: calc(110% - 10px);
   left: 50%;
   margin-left: -5px;
   width: 0;

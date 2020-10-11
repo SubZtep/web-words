@@ -2,7 +2,7 @@
 
 Show translated words on a tooltip on webpages with _[Google Translate](https://translate.google.com/)_ saved phrases.
 
-[]
+![Plugin demo of hovering words](images/webwords1.gif)
 
 ## How It Works?
 
@@ -18,7 +18,7 @@ After a while you'll have too many words and there is a possibility of memorize 
 
 (—(‒\_(-_-)\_‒)—)
 
-This plugin manages to access to this word list. **When you open a webpage, [detect the language](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/detectLanguage) and search for word matches with your dictionary.** If success translate them and display on a popup on mouse hover.
+This plugin manages to access to this word list. **When you open a webpage, [detect](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/detectLanguage) the language and search for word matches with your dictionary.** If success translate them and display on a popup on mouse hover.
 
 At least try, the plugin is beta and under development. You are more than welcome to [report any issue](https://github.com/SubZtep/web-words/issues) and contribute.
 
@@ -34,8 +34,7 @@ Clone the project locally and build with _NodeJS_. Add `dist/manifest.json` in t
 
 ## Your Data
 
-Your data never leaves your browser. This plugin simply opens the Google Translate
-page and copy your starred words into your [browser local storage](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage), there is
+Your data never leaves your browser. This plugin simply opens the Google Translate page and copy your starred words into your [local storage](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage), there is
 no custom server call involved.
 
 ## FAQ

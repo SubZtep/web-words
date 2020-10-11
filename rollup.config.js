@@ -2,7 +2,6 @@ import babel from "@rollup/plugin-babel"
 import { terser } from "rollup-plugin-terser"
 import resolve from "rollup-plugin-node-resolve"
 import commonjs from "@rollup/plugin-commonjs"
-
 import strip from "@rollup/plugin-strip"
 
 const isProd = process.env.NODE_ENV === "production"
@@ -24,7 +23,7 @@ const output = {
 }
 
 if (isProd) {
-  plugins.push(strip(), terser())
+  plugins.push(strip({ include: ["**/*.(t|j)s"] }), terser())
 }
 
 const background = {
