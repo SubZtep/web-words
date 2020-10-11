@@ -34,8 +34,4 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   }
 })
 
-browser.runtime.onInstalled.addListener(() => {
-  if (confirm("Can I populate your local dictionary now?")) {
-    importDict()
-  }
-})
+//prod:browser.runtime.onInstalled.addListener(importDict)

@@ -31,5 +31,6 @@
       "js": ["browser-polyfill.min.js", "content.js"]
     }
   ],
-  "permissions": ["<all_urls>", "activeTab", "storage", "webRequest", "webRequestBlocking"]
+  "homepage_url": "https://subztep.github.io/web-words/",
+  "permissions": ["<all_urls>", "storage", "webRequest"]
 }
