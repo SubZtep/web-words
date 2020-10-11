@@ -48,5 +48,3 @@ npm run postinstall
 ### Would be nice to have
 - [Google Translate Phrasebook API, which grants an access users' saved translations](https://issuetracker.google.com/issues/35881350)
 - [WebRequest API: allow extensions to read response body](https://bugs.chromium.org/p/chromium/issues/detail?id=487422)
-
-## License

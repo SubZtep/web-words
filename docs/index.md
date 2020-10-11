@@ -26,6 +26,8 @@ Don't forget to run the local dictionary update regularly, which is happening on
 
 ![How to update dictionary](images/update_dict.gif)
 
+Another purpose of this icon is to show the number of translated words on the current page.
+
 ## How To Install
 
 ### From source
