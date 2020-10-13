@@ -32,7 +32,12 @@ Another purpose of this icon is to show the number of translated words on the cu
 
 ### From source
 
-Clone the project locally and build with _NodeJS_. Add `dist/manifest.json` in the browser menu somewhere to add-ons in dev mode.
+Clone the project locally and build with _NodeJS_ or simply [download](https://github.com/SubZtep/web-words/releases) and unpack zip from releases. Add `dist/manifest.json` in the browser menu somewhere to add-ons in dev mode.
+
+### From app gallery
+
+Available at _Mozilla_ [Add-on](https://addons.mozilla.org/addon/web-words/) gallery.
+
 
 ## Your Data
 
