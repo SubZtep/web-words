@@ -13,3 +13,13 @@ declare type Dict = {
 declare type Words = {
   [word: string]: string
 }
+
+/**
+ * Google's POST request data for star new word.
+ */
+declare type AddRequestData = {
+  formData: {
+    q: string[]
+    utrans: string[]
+  }
+}

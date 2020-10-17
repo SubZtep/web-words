@@ -1,5 +1,5 @@
 import { langCode } from "./utils/utils"
-import importDict from "./import/google-translate"
+import { importDict, watchStarred } from "./import/google-translate"
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
   switch (message.type) {
@@ -34,4 +34,9 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   }
 })
 
+watchStarred()
+
+/**
+ * Import dictionary after install
+ */
 //prod:browser.runtime.onInstalled.addListener(importDict)

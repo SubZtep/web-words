@@ -57,7 +57,7 @@ export default async (language: string) => {
   console.time("web-words")
   const dict: Dict = await browser.storage.local.get(language)
   if (dict[language] === undefined) {
-    console.warn("No dict")
+    console.info("No dict")
     return
   }
   //TODO: Handle words with multiple language translations.
