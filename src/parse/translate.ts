@@ -1,11 +1,11 @@
+import { localDict } from "../utils/local-dict"
 import { findWords, splitToWords, spanFactory, translatable, replaceWithParts } from "./utils"
 
-const translatePage = async (wordList: Words) => {
+const translatePage = async (dict: LocalDict) => {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   let node = walker.nextNode()
   if (!node) return
 
-  const fromWordList = Object.keys(wordList).sort((a, b) => b.length - a.length)
   let words: string[]
   let found: boolean
   let foundCount = 0
@@ -19,23 +19,23 @@ const translatePage = async (wordList: Words) => {
       words = splitToWords(value)
       if (words.length > 1) {
         nodeSlices = words.map(chunk => {
-          const toLang = wordList[chunk.toLowerCase()]
-          if (toLang !== undefined) {
+          const from = chunk.toLowerCase()
+          if (dict.has(from)) {
             found = true
             foundCount++
-            console.log("Word Match", [chunk, toLang])
-            return spanFactory(chunk, toLang)
+            // console.log("Word Match", [chunk, dict.get(from)])
+            return spanFactory(chunk, dict.get(from)!)
           }
           return document.createTextNode(chunk)
         })
       } else {
-        nodeSlices = findWords(value, wordList, fromWordList).map(item => {
+        nodeSlices = findWords(value, dict).map(item => {
           if (typeof item === "string") {
             return document.createTextNode(item)
           }
           found = true
           foundCount++
-          console.log("Text Search", [value, item.textContent])
+          // console.log("Text Search", [value, item.textContent])
           return item
         })
       }
@@ -54,14 +54,10 @@ const translatePage = async (wordList: Words) => {
 }
 
 export default async (language: string) => {
-  console.time("web-words")
-  const dict: Dict = await browser.storage.local.get(language)
-  if (dict[language] === undefined) {
+  const dict = await localDict(language)
+  if (dict.size > 0) {
+    await translatePage(dict)
+  } else {
     console.info("No dict")
-    return
   }
-  //TODO: Handle words with multiple language translations.
-  const words: Words = Object.fromEntries(Object.values(dict[language]).flat())
-  await translatePage(words)
-  console.timeEnd("web-words")
 }

@@ -1,19 +1,10 @@
 import { langCode } from "./utils/utils"
 import { importDict, watchStarred } from "./import/google-translate"
 
+const transTabs = new Set<number>()
+
 browser.runtime.onMessage.addListener(async (message, sender) => {
   switch (message.type) {
-    /**
-     * Detect current page language and send msg
-     */
-    case "ASK_LANGUAGE":
-      if (sender.tab?.id) {
-        browser.tabs.sendMessage(sender.tab.id, {
-          type: "TAB_LANGUAGE",
-          language: langCode(await browser.tabs.detectLanguage()),
-        })
-      }
-      break
     /**
      * Set Word Count on the Badge
      */
@@ -34,7 +25,25 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   }
 })
 
-watchStarred()
+const translateTab = async (tabId: number) => {
+  try {
+    await browser.tabs.sendMessage(tabId, {
+      type: "TAB_LANGUAGE",
+      language: langCode(await browser.tabs.detectLanguage(tabId)),
+    })
+    transTabs.add(tabId)
+  } catch {}
+}
+
+browser.tabs.onUpdated.addListener(async (tabId, { status }) => {
+  if (status === "complete") {
+    await translateTab(tabId)
+  }
+})
+
+browser.tabs.onRemoved.addListener(tabId => void transTabs.delete(tabId))
+
+watchStarred(async () => transTabs.forEach(translateTab))
 
 /**
  * Import dictionary after install

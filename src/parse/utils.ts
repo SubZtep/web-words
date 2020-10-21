@@ -67,14 +67,12 @@ export const findWord = (chunks: (string | Node)[], word: string, translated: st
 /**
  * Find and translate words in a text
  */
-export const findWords = (nodeValue: string, wordList: Words, fromWordList?: string[]) => {
-  if (typeof fromWordList === "undefined") {
-    fromWordList = Object.keys(wordList).sort((a, b) => b.length - a.length)
-  }
-  let fromWord: string
+export const findWords = (nodeValue: string, dict: LocalDict) => {
   let returns: (string | Node)[] = [nodeValue]
-  for (fromWord of fromWordList) {
-    returns = findWord(returns, fromWord, wordList[fromWord])
-  }
+
+  dict.forEach((to, from) => {
+    returns = findWord(returns, from, to)
+  })
+
   return returns
 }

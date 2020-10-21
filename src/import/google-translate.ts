@@ -30,7 +30,7 @@ export const addWord = (
   // check for duplicate and add
   const words = dict[fromLang][toLang]
   if (words === undefined || words[fromWord] !== toWord) {
-    dict[fromLang][toLang].push([fromWord.toLowerCase(), toWord.toLowerCase()])
+    dict[fromLang][toLang].push([fromWord, toWord])
   }
 
   return dict
@@ -70,7 +70,7 @@ export const importDict = async () => {
 /**
  * Add starred word to local dictionary.
  */
-export const watchStarred = () => {
+export const watchStarred = (cb: () => void) => {
   browser.webRequest.onBeforeRequest.addListener(
     // @ts-ignore
     async ({ method, requestBody, url }) => {
@@ -98,6 +98,7 @@ export const watchStarred = () => {
       let dict = await browser.storage.local.get(langCode(langs["sl"]))
       dict = addWord(langs["sl"], langs["tl"], q[0], utrans[0], dict)
       await saveDict(dict)
+      cb()
     },
     {
       urls: ["https://*/translate_a/sg?*"],

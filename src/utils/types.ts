@@ -1,4 +1,9 @@
 /**
+ * Local dictionary for content parse.
+ */
+declare type LocalDict = Map<string, string>
+
+/**
  * From a language to all other language translations.
  */
 declare type Dict = {
@@ -9,6 +14,7 @@ declare type Dict = {
 
 /**
  * Word list in two languages. `{ Acne: "Pattanás", ... }`
+ * TODO: Map instead of object, insert in right order
  */
 declare type Words = {
   [word: string]: string
