@@ -6,7 +6,12 @@ const addWord = (dict: LocalDict) => (words: Words) => (word: string) =>
 
 export const localDict = async (language: string) => {
   const localDict: LocalDict = new Map<string, string>()
-  const dict: Dict = await browser.storage.local.get(langCode(language))
+  let dict: Dict
+  try {
+    dict = await browser.storage.local.get(langCode(language))
+  } catch {
+    return
+  }
   const storedLang = dict[language]
 
   if (storedLang) {

@@ -7,9 +7,13 @@ export const splitToWords = (str: string): string[] => str?.split(/(\b\w+\b)/) ?
  * The node is a human readable text.
  */
 export const translatable = (node: Node) => {
-  if (!node.nodeValue || node.nodeValue.trim() === "") return false
-  const parent = node.parentNode
-  return parent !== null && !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
+  if (node.nodeValue && node.nodeValue.trim() !== "") {
+    const parent = node.parentNode
+    if (parent !== null && !(parent as HTMLElement).hasAttribute("data-webwords")) {
+      return !["style", "noscript", "script"].includes(parent.nodeName.toLowerCase())
+    }
+  }
+  return false
 }
 
 /**

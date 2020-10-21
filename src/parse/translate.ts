@@ -48,14 +48,12 @@ const translatePage = async (dict: LocalDict) => {
     node = next
   } while (node)
 
-  if (foundCount > 0) {
-    browser.runtime.sendMessage({ type: "WORDS_FOUND", count: foundCount })
-  }
+  await browser.runtime.sendMessage({ type: "WORDS_FOUND", count: foundCount })
 }
 
 export default async (language: string) => {
   const dict = await localDict(language)
-  if (dict.size > 0) {
+  if (dict && dict.size > 0) {
     await translatePage(dict)
   } else {
     console.info("No dict")

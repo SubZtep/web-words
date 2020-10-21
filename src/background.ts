@@ -26,18 +26,22 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 })
 
 const translateTab = async (tabId: number) => {
+  transTabs.add(tabId)
   try {
     await browser.tabs.sendMessage(tabId, {
       type: "TAB_LANGUAGE",
       language: langCode(await browser.tabs.detectLanguage(tabId)),
     })
-    transTabs.add(tabId)
   } catch {}
 }
 
 browser.tabs.onUpdated.addListener(async (tabId, { status }) => {
   if (status === "complete") {
     await translateTab(tabId)
+  } else {
+    await browser.tabs.sendMessage(tabId, {
+      type: "TAB_PROCESSING",
+    })
   }
 })
 
