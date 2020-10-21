@@ -7,7 +7,3 @@ browser.runtime.onMessage.addListener(message => {
       break
   }
 })
-
-// First step is ask language from the background script.
-// If we have it then the translation can happen.
-browser.runtime.sendMessage({ type: "ASK_LANGUAGE" })

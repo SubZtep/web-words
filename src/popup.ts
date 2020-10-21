@@ -1,14 +1,12 @@
-const msg = (type: "IMPORT_DICT") => void browser.runtime.sendMessage({ type })
-
-const t = (id: string) => (word?: string) => {
-  const el = document.getElementById(id)
-  el!.innerText = word === undefined ? browser.i18n.getMessage(id) : word
-  return el
-}
-
 const main = () => {
-  t("importDict")()
-  t("importDictGO")()!.addEventListener("click", () => msg("IMPORT_DICT"))
+  document
+    .getElementById("importDictGO")!
+    .addEventListener("click", () => void browser.runtime.sendMessage({ type: "IMPORT_DICT" }))
+
+  // translate
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = browser.i18n.getMessage(el.getAttribute("data-i18n")!)
+  })
 }
 
 document.addEventListener("DOMContentLoaded", main)
