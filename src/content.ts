@@ -1,9 +1,21 @@
+import { startObserve, stopObserve } from "./parse/mutation"
 import startTranslate from "./parse/translate"
 
-browser.runtime.onMessage.addListener(message => {
+let language = ""
+
+const observed = async () => {
+  await startTranslate(language)
+}
+
+browser.runtime.onMessage.addListener(async message => {
   switch (message.type) {
     case "TAB_LANGUAGE":
-      startTranslate(message.language as string)
+      language = message.language as string
+      await startTranslate(language)
+      startObserve(observed)
+      break
+    case "TAB_PROCESSING":
+      stopObserve()
       break
   }
 })
