@@ -31,19 +31,20 @@ export const overHandler = (ev: MouseEvent) => {
   }
   const target: HTMLElement | null = ev.currentTarget as HTMLElement
   const text = target.getAttribute("data-webwords")
-  if (target !== null && tooltip && text) {
+
+  if (target && tooltip && text) {
     const { top, left, width, height } = target.getBoundingClientRect()
-    const { scrollTop, scrollLeft } = document.body
+    const { scrollX, scrollY } = window
 
     // popupWidth = 150px
     // popupHeight = cca. 100px
 
     if (top < 100) {
-      tooltip.style.top = `${top + scrollTop + height + 6}px`
+      tooltip.style.top = `${top + scrollY + height + 6}px`
       tooltip.style.bottom = "auto"
     } else {
       tooltip.style.top = "auto"
-      tooltip.style.bottom = `${document.body.clientHeight - top - scrollTop + 4}px`
+      tooltip.style.bottom = `${document.body.clientHeight - top - scrollY + 4}px`
     }
 
     const protrusion = 150 - width
@@ -53,7 +54,7 @@ export const overHandler = (ev: MouseEvent) => {
         : document.body.clientWidth - left - width - protrusion < 0
         ? width - 150
         : -(protrusion / 2)
-    tooltip.style.left = `${left + scrollLeft + leftOffset}px`
+    tooltip.style.left = `${left + scrollX + leftOffset}px`
 
     showTooltip(text)
   }
