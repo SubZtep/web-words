@@ -32,7 +32,7 @@ npm run lint
 npm run lint-fix
 
 # Generate icons
-npm run postinstall
+npm run generate-icons
 ```
 
 ## Asset

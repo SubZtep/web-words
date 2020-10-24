@@ -39,9 +39,11 @@ browser.tabs.onUpdated.addListener(async (tabId, { status }) => {
   if (status === "complete") {
     await translateTab(tabId)
   } else {
-    await browser.tabs.sendMessage(tabId, {
-      type: "TAB_PROCESSING",
-    })
+    try {
+      await browser.tabs.sendMessage(tabId, {
+        type: "TAB_PROCESSING",
+      })
+    } catch {}
   }
 })
 

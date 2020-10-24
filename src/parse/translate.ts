@@ -8,7 +8,6 @@ const translatePage = async (dict: LocalDict) => {
 
   let words: string[]
   let found: boolean
-  let foundCount = 0
   let nodeSlices: Node[]
   let value: string
 
@@ -22,7 +21,6 @@ const translatePage = async (dict: LocalDict) => {
           const from = chunk.toLowerCase()
           if (dict.has(from)) {
             found = true
-            foundCount++
             // console.log("Word Match", [chunk, dict.get(from)])
             return spanFactory(chunk, dict.get(from)!)
           }
@@ -34,7 +32,6 @@ const translatePage = async (dict: LocalDict) => {
             return document.createTextNode(item)
           }
           found = true
-          foundCount++
           // console.log("Text Search", [value, item.textContent])
           return item
         })
@@ -48,7 +45,10 @@ const translatePage = async (dict: LocalDict) => {
     node = next
   } while (node)
 
-  await browser.runtime.sendMessage({ type: "WORDS_FOUND", count: foundCount })
+  await browser.runtime.sendMessage({
+    type: "WORDS_FOUND",
+    count: document.querySelectorAll("[data-webwords]").length,
+  })
 }
 
 export default async (language: string) => {

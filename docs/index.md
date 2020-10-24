@@ -4,6 +4,13 @@ Show translated words on a tooltip on webpages with _[Google Translate](https://
 
 ![Plugin demo of hovering words](images/preview.gif)
 
+## Features
+
+- Auto-import your entire saved dictionary from _Google Translate_ with a single click.
+- Newly starred words automatically imported and open pages are getting updated. Works well alongside other [translate add-on](https://addons.mozilla.org/en-US/firefox/addon/to-google-translate/)s.
+
+Are you missing something? Visit the _GitHub_ [projects page](https://github.com/SubZtep/web-words/projects) for roadmap(ish) and feel free to get involved.
+
 ## How It Works?
 
 If you logged in with your _Google_ account, you are able to save translations with the star icon.
@@ -34,9 +41,9 @@ Another purpose of this icon is to show the number of translated words on the cu
 
 Clone the project locally and build with _NodeJS_ or simply [download](https://github.com/SubZtep/web-words/releases) and unpack zip from releases. Add `dist/manifest.json` in the browser menu somewhere to add-ons in dev mode.
 
-### From app gallery
+### One-clicker
 
-Available at _Mozilla_ [Add-on](https://addons.mozilla.org/addon/web-words/) gallery.
+Available at **_Firefox_** [add-ons](https://addons.mozilla.org/addon/web-words/) and **_Chrome_** [web store](https://chrome.google.com/webstore/detail/web-words/oafbnidobflmgdldmjjdiofefhofknbm).
 
 
 ## Your Data
