@@ -1,3 +1,5 @@
+import { hideTooltip, overHandler, showTooltip } from "./tooltip"
+
 /**
  * Get list of words from a text.
  */
@@ -22,6 +24,8 @@ export const translatable = (node: Node) => {
 export const spanFactory = (word: string, title: string): Node => {
   const span = document.createElement("span")
   span.setAttribute("data-webwords", title)
+  span.onmouseover = overHandler
+  span.onmouseout = hideTooltip
   span.innerText = word
   return span
 }
