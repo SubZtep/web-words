@@ -36,18 +36,15 @@ export const overHandler = (ev: MouseEvent) => {
     const { top, left, width, height } = target.getBoundingClientRect()
     const { scrollX, scrollY } = window
 
-    // popupWidth = 150px
-    // popupHeight = cca. 100px
-
     if (top < 100) {
+      // below
       tooltip.style.top = `${top + scrollY + height + 6}px`
-      tooltip.style.bottom = "auto"
     } else {
-      tooltip.style.top = "auto"
-      tooltip.style.bottom = `${document.body.clientHeight - top - scrollY + 4}px`
+      // above
+      tooltip.style.top = `${top + scrollY - 30}px` // Tooltip hight cca. 30px
     }
 
-    const protrusion = 150 - width
+    const protrusion = 150 - width // Tooltip width cca. 150px
     const leftOffset =
       left < protrusion
         ? 0
