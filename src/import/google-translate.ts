@@ -44,27 +44,36 @@ export const parseResponse = (data: object) => {
   return dict
 }
 
-export const importDict = async () => {
-  const tab = await browser.tabs.create({ url: "https://translate.google.com/#view=saved" })
+const starListener = async ({ url }) => {
+  const res = await fetch(url)
+  if (!res.ok) {
+    return
+  }
+  const data = await res.json()
+  const dict: Dict = parseResponse(data)
+  await saveDict(dict)
+}
 
+export const importDict = (tabId: number) => {
+  //TODO: use webRequest/filterResponseData if possible
+  if (browser.webRequest.onCompleted.hasListener(starListener)) {
+    return
+  }
   browser.webRequest.onCompleted.addListener(
-    async ({ url }) => {
-      const res = await fetch(url)
-      if (!res.ok) return
-
-      const data = await res.json()
-      const dict: Dict = parseResponse(data)
-      await saveDict(dict)
-      await browser.tabs.remove(tab.id!)
-      //TODO: remove listener (if necessary)
-    },
+    starListener,
     {
-      tabId: tab.id,
+      tabId,
       urls: ["https://*/*/sg?*"],
       types: ["xmlhttprequest"],
     },
     ["responseHeaders"]
   )
+}
+
+export const importDictGone = () => {
+  if (browser.webRequest.onCompleted.hasListener(starListener)) {
+    browser.webRequest.onCompleted.removeListener(starListener)
+  }
 }
 
 /**
