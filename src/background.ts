@@ -21,9 +21,6 @@ const importToLocal = (tabId: number, url = "") => {
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
   switch (message.type) {
-    /**
-     * Set Word Count on the Badge
-     */
     case "WORDS_FOUND":
       if (sender.tab?.id) {
         browser.browserAction.setBadgeText({
@@ -32,12 +29,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         })
       }
       break
-    // /**
-    //  * Create new tab
-    //  */
-    // case "IMPORT_DICT":
-    //   await importDict()
-    //   break
   }
 })
 
