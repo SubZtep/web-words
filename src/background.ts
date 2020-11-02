@@ -1,13 +1,26 @@
 import { langCode } from "./utils/utils"
-import { importDict, watchStarred } from "./import/google-translate"
+import { importDict, importDictGone, watchStarred } from "./import/google-translate"
 
 const transTabs = new Set<number>()
+const dictSyncTabs = new Set<number>()
+
+/**
+ * If user visit starred words page then import them into the local dictionary.
+ */
+const importToLocal = (tabId: number, url = "") => {
+  if (/^https:\/\/translate\.google\.(.+)view=saved(.*)$/.test(url || "")) {
+    if (!dictSyncTabs.has(tabId)) {
+      importDict(tabId)
+      dictSyncTabs.add(tabId)
+    }
+  } else {
+    dictSyncTabs.delete(tabId)
+    importDictGone()
+  }
+}
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
   switch (message.type) {
-    /**
-     * Set Word Count on the Badge
-     */
     case "WORDS_FOUND":
       if (sender.tab?.id) {
         browser.browserAction.setBadgeText({
@@ -16,15 +29,12 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         })
       }
       break
-    /**
-     * Create new tab
-     */
-    case "IMPORT_DICT":
-      await importDict()
-      break
   }
 })
 
+/**
+ * Send language code to tab for translate.
+ */
 const translateTab = async (tabId: number) => {
   transTabs.add(tabId)
   try {
@@ -35,7 +45,9 @@ const translateTab = async (tabId: number) => {
   } catch {}
 }
 
-browser.tabs.onUpdated.addListener(async (tabId, { status }) => {
+browser.tabs.onUpdated.addListener(async (tabId, { status }, { url }) => {
+  console.log("URL without tab permission", url)
+  importToLocal(tabId, url)
   if (status === "complete") {
     await translateTab(tabId)
   } else {
@@ -47,7 +59,11 @@ browser.tabs.onUpdated.addListener(async (tabId, { status }) => {
   }
 })
 
-browser.tabs.onRemoved.addListener(tabId => void transTabs.delete(tabId))
+browser.tabs.onRemoved.addListener(tabId => {
+  transTabs.delete(tabId)
+  dictSyncTabs.delete(tabId)
+  importDictGone()
+})
 
 watchStarred(async () => transTabs.forEach(translateTab))
 

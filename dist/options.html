@@ -1,0 +1,41 @@
+<script src="browser-polyfill.min.js"></script>
+<script src="options.js"></script>
+
+<style>
+  html,
+  body {
+    background-color: #8a0303;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    font: caption;
+    margin: 0;
+    padding: 2px;
+    user-select: none;
+    min-height: 100%;
+    text-align: start;
+  }
+
+  a {
+    color: #fff;
+  }
+
+  .row {
+    margin: 2px 0;
+  }
+</style>
+
+<div class="row">
+  <input type="checkbox" id="sync" />
+  <label for="sync">Sync local dictonary accross browsers</label>
+</div>
+
+<div class="row">
+  <button id="del">Delete Local Dictionary</button>
+</div>
+
+<div class="row">
+  <a href="https://translate.google.com/#view=saved" target="_blank">Open starred words for import.</a>
+</div>

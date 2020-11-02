@@ -46,4 +46,10 @@ const popup = {
   plugins,
 }
 
-export default [background, content, popup]
+const options = {
+  input: "src/options.ts",
+  output,
+  plugins,
+}
+
+export default [background, content, popup, options]

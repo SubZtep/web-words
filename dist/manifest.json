@@ -20,7 +20,10 @@
     }
   },
   "background": {
-    "scripts": ["browser-polyfill.min.js", "background.js"],
+    "scripts": [
+      "browser-polyfill.min.js",
+      "background.js"
+    ],
     "persistent": true
   },
   "content_scripts": [
@@ -32,5 +35,13 @@
     }
   ],
   "homepage_url": "https://subztep.github.io/web-words/",
-  "permissions": ["<all_urls>", "storage", "webRequest"]
+  "options_ui": {
+    "page": "options.html"
+  },
+  "permissions": [
+    "<all_urls>",
+    "storage",
+    "webRequest",
+    "tabs"
+  ]
 }
