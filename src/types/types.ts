@@ -29,3 +29,19 @@ declare type AddRequestData = {
     utrans: string[]
   }
 }
+
+type WordsMessage = {
+  type: "WORDS_FOUND"
+  count: number
+}
+
+type LanguageMessage = {
+  type: "TAB_LANGUAGE"
+  language: string
+}
+
+type ProcessingMessage = {
+  type: "TAB_PROCESSING"
+}
+
+declare type MyMessage = WordsMessage | LanguageMessage | ProcessingMessage

@@ -20,5 +20,5 @@
   display: inline-block;
   background-color: red;
   background: linear-gradient(0deg, rgba(8,0,0,1) 0%, rgba(255,0,0,0.8) 5%, rgba(255,0,0,0) 40%);
-  opacity: 0.5;
+  /*opacity: 0.5;*/
 }

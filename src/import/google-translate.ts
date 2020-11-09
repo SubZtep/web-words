@@ -84,9 +84,11 @@ export const watchStarred = (cb: () => void) => {
     // @ts-ignore
     async ({ method, requestBody, url }) => {
       if (method !== "POST" || !url.startsWith("https://translate.google")) return
+
       const {
         formData: { q, utrans },
       } = requestBody as AddRequestData
+
       if (!Array.isArray(q) || q.length !== 1 || !Array.isArray(utrans) || utrans.length !== 1)
         return
 

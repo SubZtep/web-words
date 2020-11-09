@@ -17,5 +17,11 @@ browser.runtime.onMessage.addListener(async message => {
     case "TAB_PROCESSING":
       stopObserve()
       break
+    case "IMPORT_DICT":
+      const script = document.createElement("script")
+      script.setAttribute("type", "text/javascript")
+      script.setAttribute("src", browser.extension.getURL("import.js"))
+      document.body.appendChild(script)
+      break
   }
 })

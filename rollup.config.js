@@ -52,4 +52,10 @@ const options = {
   plugins,
 }
 
-export default [background, content, popup, options]
+const importDict = {
+  input: "src/import.ts",
+  output,
+  plugins,
+}
+
+export default [background, content, popup, options, importDict]
