@@ -20,10 +20,7 @@
     }
   },
   "background": {
-    "scripts": [
-      "browser-polyfill.min.js",
-      "background.js"
-    ],
+    "scripts": ["browser-polyfill.min.js", "background.js"],
     "persistent": true
   },
   "content_scripts": [
@@ -31,23 +28,10 @@
       "matches": ["<all_urls>"],
       "run_at": "document_idle",
       "css": ["web-words.css"],
-      "js": [
-        "browser-polyfill.min.js",
-        "content.js"
-      ]
+      "js": ["browser-polyfill.min.js", "content.js"]
     }
   ],
   "homepage_url": "https://subztep.github.io/web-words/",
-  "options_ui": {
-    "page": "options.html"
-  },
-  "permissions": [
-    "<all_urls>",
-    "storage",
-    "webRequest",
-    "tabs"
-  ],
-  "web_accessible_resources": [
-    "import.js"
-  ]
+  "permissions": ["<all_urls>", "storage", "webRequest", "tabs", "notifications"],
+  "web_accessible_resources": ["import.js"]
 }

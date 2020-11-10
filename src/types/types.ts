@@ -44,4 +44,8 @@ type ProcessingMessage = {
   type: "TAB_PROCESSING"
 }
 
-declare type MyMessage = WordsMessage | LanguageMessage | ProcessingMessage
+type FetchDictionary = {
+  type: "FETCH_DICTIONARY"
+}
+
+declare type AppMessage = WordsMessage | LanguageMessage | ProcessingMessage | FetchDictionary

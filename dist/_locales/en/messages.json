@@ -6,8 +6,12 @@
   "extDescription": {
     "message": "Show translated words on a tooltip using Google Translate saved phrases."
   },
+  "fetchDict": {
+    "message": "Update local dictionary"
+  },
+
   "importDict": {
-    "message": "🚪 OPEN GOOGLE TRANSLATE, copy logged in user's ⭐ starred words into your browser local storage 🔒 and close it quickly."
+    "message": "🚪 FETCH GOOGLE TRANSLATE, copy logged in user's ⭐ starred words into your browser local storage 🔒 quickly in the background."
   },
   "importDictGO": {
     "message": "(¯`·._.·(¯`·._.· GO, DO ·._.·´¯)·._.·´¯)"

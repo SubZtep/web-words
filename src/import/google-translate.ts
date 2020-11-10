@@ -36,85 +36,45 @@ export const addWord = (
   return dict
 }
 
-export const parseResponse = (data: object) => {
-  let dict: Dict = {}
-  data[2].forEach(([, fromLang, toLang, fromWord, toWord]: string[]) => {
-    dict = addWord(fromLang, toLang, fromWord, toWord, dict)
-  })
-  return dict
-}
+export const fetchDict = async () => {
+  const res = await fetch("https://translate.google.com/saved")
+  if (!res.ok) return
+  const dict: Dict = {}
 
-const starListener = async ({ url }) => {
-  const res = await fetch(url)
-  if (!res.ok) {
-    return
-  }
-  const data = await res.json()
-  const dict: Dict = parseResponse(data)
-  await saveDict(dict)
-}
-
-export const importDict = (tabId: number) => {
-  //TODO: use webRequest/filterResponseData if possible
-  if (browser.webRequest.onCompleted.hasListener(starListener)) {
-    return
-  }
-  browser.webRequest.onCompleted.addListener(
-    starListener,
-    {
-      tabId,
-      urls: ["https://*/*/sg?*"],
-      types: ["xmlhttprequest"],
-    },
-    ["responseHeaders"]
-  )
-}
-
-export const importDictGone = () => {
-  if (browser.webRequest.onCompleted.hasListener(starListener)) {
-    browser.webRequest.onCompleted.removeListener(starListener)
-  }
-}
-
-/**
- * Add starred word to local dictionary.
- */
-export const watchStarred = (cb: () => void) => {
-  browser.webRequest.onBeforeRequest.addListener(
-    // @ts-ignore
-    async ({ method, requestBody, url }) => {
-      if (method !== "POST" || !url.startsWith("https://translate.google")) return
-
-      const {
-        formData: { q, utrans },
-      } = requestBody as AddRequestData
-
-      if (!Array.isArray(q) || q.length !== 1 || !Array.isArray(utrans) || utrans.length !== 1)
-        return
-
-      let langs: { [key: string]: string }
-      try {
-        langs = Object.fromEntries(
-          url
-            .split("?")[1]
-            .split("&")
-            .filter(q => q.startsWith("sl=") || q.startsWith("tl="))
-            .map(q => q.split("="))
-        )
-      } catch {
-        return
+  Array.from(
+    new DOMParser().parseFromString(await res.text(), "text/html").querySelectorAll("script")
+  ).some(({ innerText }) => {
+    let rows
+    try {
+      rows = JSON.parse(
+        innerText.split("data:", 2)[1]?.split("sideChannel:", 1)[0].trimEnd().slice(0, -1)
+      )[0]
+      if (!Array.isArray(rows) || rows.length === 0 || rows[0].length !== 6) {
+        return false
       }
-      if (Object.keys(langs).length !== 2) return
+    } catch {
+      return false
+    }
 
-      let dict = await browser.storage.local.get(langCode(langs["sl"]))
-      dict = addWord(langs["sl"], langs["tl"], q[0], utrans[0], dict)
-      await saveDict(dict)
-      cb()
-    },
-    {
-      urls: ["https://*/translate_a/sg?*"],
-      types: ["xmlhttprequest"],
-    },
-    ["requestBody"]
-  )
+    try {
+      rows.forEach(
+        async ([, fromLang, toLang, fromWord, toWord]) =>
+          void addWord(fromLang, toLang, fromWord, toWord, dict)
+      )
+    } catch {
+      return false
+    }
+    return true
+  })
+
+  await saveDict(dict)
+
+  return {
+    languageCount: Object.keys(dict).length,
+    wordCount: Object.values(dict).reduce(
+      (prev, curr) =>
+        prev + Object.values(curr).reduce((subPrev, subCurr) => subPrev + subCurr.length, 0),
+      0
+    ),
+  }
 }

@@ -46,16 +46,4 @@ const popup = {
   plugins,
 }
 
-const options = {
-  input: "src/options.ts",
-  output,
-  plugins,
-}
-
-const importDict = {
-  input: "src/import.ts",
-  output,
-  plugins,
-}
-
-export default [background, content, popup, options, importDict]
+export default [background, content, popup]
