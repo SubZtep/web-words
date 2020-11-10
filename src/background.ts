@@ -1,5 +1,6 @@
 import { langCode } from "./utils/utils"
 import { fetchDict } from "./import/google-translate"
+import { notification } from "./import/notification"
 
 const backgroundMessageHandler = async (
   message: AppMessage,
@@ -15,25 +16,8 @@ const backgroundMessageHandler = async (
       }
       break
     case "FETCH_DICTIONARY":
-      const counts = await fetchDict()
-      let options: browser.notifications.CreateNotificationOptions = counts
-        ? {
-            type: "list",
-            iconUrl: "icons/192x192.png",
-            title: "Updated",
-            message: "Local dictionary updated.",
-            items: [
-              { title: "Translate From", message: `${counts.languageCount} languages` },
-              { title: "All together", message: `${counts.wordCount} words` },
-            ],
-          }
-        : {
-            type: "basic",
-            iconUrl: "icons/192x192.png",
-            title: "Update Failed",
-            message: "Local dictionary is not updated",
-          }
-      await browser.notifications.create(options)
+      const success = await fetchDict()
+      notification(success ? "IMPORT_SUCCESS" : "IMPORT_FAIL")
       break
   }
 }

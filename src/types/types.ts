@@ -49,3 +49,5 @@ type FetchDictionary = {
 }
 
 declare type AppMessage = WordsMessage | LanguageMessage | ProcessingMessage | FetchDictionary
+
+declare type NotificationType = "IMPORT_SUCCESS" | "IMPORT_FAIL"

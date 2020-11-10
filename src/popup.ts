@@ -10,12 +10,12 @@ const translateEl = (el: HTMLElement) => {
 }
 
 const main = () => {
-  document
-    .querySelector<HTMLButtonElement>(".fetchDict")!
-    .addEventListener(
-      "click",
-      () => void browser.runtime.sendMessage({ type: "FETCH_DICTIONARY" } as AppMessage)
-    )
+  const fetchButton = document.querySelector<HTMLButtonElement>(".fetchDict")!
+  fetchButton.addEventListener("click", async () => {
+    fetchButton.disabled = true
+    await browser.runtime.sendMessage({ type: "FETCH_DICTIONARY" } as AppMessage)
+    window.close()
+  })
 
   // translate
   document.querySelectorAll<HTMLElement>("[data-i18n]").forEach(translateEl)

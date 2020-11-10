@@ -7,9 +7,11 @@ export const saveDict = async (dict: Dict) => {
     for (const [fromLang, toLangs] of dictEntries) {
       await browser.storage.local.set({ [fromLang]: toLangs })
     }
-  } else {
-    console.info("I didn't find any words (／ˍ・、)")
+    return true
   }
+
+  console.info("I didn't find any words (／ˍ・、)")
+  return false
 }
 
 export const addWord = (
