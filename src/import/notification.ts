@@ -28,6 +28,15 @@ export const notification = async (type: NotificationType) => {
         type: "basic",
         iconUrl,
         title: "Update Failed",
+        message: "Local dictionary is not updated, I didn't find any words (／ˍ・、)",
+      }
+      break
+
+    case "FETCH_FAIL":
+      options = {
+        type: "basic",
+        iconUrl,
+        title: "Fetch Google Failed",
         message: "Local dictionary is not updated",
       }
       break

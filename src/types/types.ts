@@ -4,7 +4,7 @@
 declare type LocalDict = Map<string, string>
 
 /**
- * From a language to all other language translations.
+ * From one language to its all other starred word's language translates.
  */
 declare type Dict = {
   [fromLang: string]: {
@@ -30,12 +30,12 @@ declare type AddRequestData = {
   }
 }
 
-type WordsMessage = {
+declare type WordsFound = {
   type: "WORDS_FOUND"
   count: number
 }
 
-type LanguageMessage = {
+type LanguageDetected = {
   type: "TAB_LANGUAGE"
   language: string
 }
@@ -48,6 +48,9 @@ type FetchDictionary = {
   type: "FETCH_DICTIONARY"
 }
 
-declare type AppMessage = WordsMessage | LanguageMessage | ProcessingMessage | FetchDictionary
+/**
+ *
+ */
+declare type AppMessage = WordsFound | LanguageDetected | ProcessingMessage | FetchDictionary
 
-declare type NotificationType = "IMPORT_SUCCESS" | "IMPORT_FAIL"
+declare type NotificationType = "IMPORT_SUCCESS" | "IMPORT_FAIL" | "FETCH_FAIL"

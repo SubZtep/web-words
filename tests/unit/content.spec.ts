@@ -1,5 +1,5 @@
 const findWords = (chunks: string[], word: string) => {
-  const newChunks = []
+  const newChunks: string[] = []
   let chunk: string
   let splitted: string[]
   let spit: string
@@ -40,7 +40,7 @@ describe("find words in text", () => {
   test.each(cases)(`chunckcheck %p`, (chunks, words, ret) => {
     words = words.sort((a, b) => b.length - a.length)
 
-    const chunk = chunks.shift()
+    const chunk = chunks.shift()!
     let returns = [chunk]
 
     for (const word of words) {

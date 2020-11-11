@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "default_locale": "en",
   "description": "__MSG_extDescription__",
   "icons": {
@@ -32,6 +32,6 @@
     }
   ],
   "homepage_url": "https://subztep.github.io/web-words/",
-  "permissions": ["<all_urls>", "storage", "webRequest", "tabs", "notifications"],
+  "permissions": ["<all_urls>", "storage", "notifications"],
   "web_accessible_resources": ["import.js"]
 }

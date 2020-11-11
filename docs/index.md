@@ -7,7 +7,7 @@ Show translated words on a tooltip on webpages with _[Google Translate](https://
 ## Features
 
 - Auto-import your entire saved dictionary from _Google Translate_ with a single click.
-- Newly starred words automatically imported and open pages are getting updated. Works well alongside other [translate add-on](https://addons.mozilla.org/en-US/firefox/addon/to-google-translate/)s.
+- ~~Newly starred words automatically imported and open pages are getting updated. Works well alongside other [translate add-on](https://addons.mozilla.org/en-US/firefox/addon/to-google-translate/)s.~~
 
 Are you missing something? Visit the _GitHub_ [projects page](https://github.com/SubZtep/web-words/projects) for roadmap(ish) and feel free to get involved.
 
@@ -43,7 +43,7 @@ Clone the project locally and build with _NodeJS_ or simply [download](https://g
 
 ### One-clicker
 
-Available at **_Firefox_** [add-ons](https://addons.mozilla.org/addon/web-words/) and **_Chrome_** [web store](https://chrome.google.com/webstore/detail/web-words/oafbnidobflmgdldmjjdiofefhofknbm).
+Available at [**_Firefox_** add-ons](https://addons.mozilla.org/addon/web-words/) and [**_Chrome_** web store](https://chrome.google.com/webstore/detail/web-words/oafbnidobflmgdldmjjdiofefhofknbm).
 
 
 ## Your Data

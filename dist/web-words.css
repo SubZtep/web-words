@@ -13,6 +13,7 @@
   z-index: 2147483647;
   display: none;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 [data-webwords] {

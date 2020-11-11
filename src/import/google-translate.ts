@@ -1,6 +1,7 @@
 import { langCode } from "../utils/utils"
+import { notification } from "./notification"
 
-export const saveDict = async (dict: Dict) => {
+const saveDict = async (dict: Dict) => {
   const dictEntries = Object.entries(dict)
   if (dictEntries.length > 0) {
     browser.storage.local.clear()
@@ -9,18 +10,10 @@ export const saveDict = async (dict: Dict) => {
     }
     return true
   }
-
-  console.info("I didn't find any words (／ˍ・、)")
   return false
 }
 
-export const addWord = (
-  fromLang: string,
-  toLang: string,
-  fromWord: string,
-  toWord: string,
-  dict: Dict
-) => {
+export const addWord = (dict: Dict) => ([, fromLang, toLang, fromWord, toWord]: DataRow) => {
   fromLang = langCode(fromLang)
   toLang = langCode(toLang)
   fromWord = fromWord.toLowerCase()
@@ -29,7 +22,6 @@ export const addWord = (
   if (dict[fromLang] === undefined) dict[fromLang] = {}
   if (dict[fromLang][toLang] === undefined) dict[fromLang][toLang] = []
 
-  // check for duplicate and add
   const words = dict[fromLang][toLang]
   if (words === undefined || words[fromWord] !== toWord) {
     dict[fromLang][toLang].push([fromWord, toWord])
@@ -38,45 +30,46 @@ export const addWord = (
   return dict
 }
 
-export const fetchDict = async () => {
+export const parseTag = (text: string): DataRow[] | undefined => {
+  let rows: DataRow[]
+  try {
+    rows = JSON.parse(
+      text.split("data:", 2)[1]?.split("sideChannel:", 1)[0].trimEnd().slice(0, -1)
+    )[0]
+    if (!Array.isArray(rows) || rows.length === 0 || rows[0].length !== 6) {
+      return undefined
+    }
+  } catch {
+    return undefined
+  }
+  return rows
+}
+
+const scriptTags = (html: string) =>
+  Array.from(new DOMParser().parseFromString(html, "text/html").querySelectorAll("script"))
+
+/**
+ * Google Translate API - Get Starred Words of logged user and sav3e to browser storage.
+ */
+export const starredIntoLocal = async () => {
   const res = await fetch("https://translate.google.com/saved")
-  if (!res.ok) return
+  if (!res.ok) {
+    notification("FETCH_FAIL")
+    return
+  }
   const dict: Dict = {}
+  const add = addWord(dict)
 
-  Array.from(
-    new DOMParser().parseFromString(await res.text(), "text/html").querySelectorAll("script")
-  ).some(({ innerText }) => {
-    let rows
-    try {
-      rows = JSON.parse(
-        innerText.split("data:", 2)[1]?.split("sideChannel:", 1)[0].trimEnd().slice(0, -1)
-      )[0]
-      if (!Array.isArray(rows) || rows.length === 0 || rows[0].length !== 6) {
-        return false
-      }
-    } catch {
-      return false
+  // First success breaks and stop the iteration
+  scriptTags(await res.text()).some(({ innerText }) => {
+    const dataRows = parseTag(innerText)
+    if (dataRows && dataRows.length > 0) {
+      dataRows.forEach(add)
+      return true
     }
-
-    try {
-      rows.forEach(
-        async ([, fromLang, toLang, fromWord, toWord]) =>
-          void addWord(fromLang, toLang, fromWord, toWord, dict)
-      )
-    } catch {
-      return false
-    }
-    return true
   })
 
-  await saveDict(dict)
+  const success = await saveDict(dict)
 
-  return {
-    languageCount: Object.keys(dict).length,
-    wordCount: Object.values(dict).reduce(
-      (prev, curr) =>
-        prev + Object.values(curr).reduce((subPrev, subCurr) => subPrev + subCurr.length, 0),
-      0
-    ),
-  }
+  notification(success ? "IMPORT_SUCCESS" : "IMPORT_FAIL")
 }

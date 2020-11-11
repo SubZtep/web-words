@@ -1,16 +1,18 @@
-# _Web Words_ – a browser extension
+# _Web Words_ – browser extension
 
-Show translated words on a tooltip on webpages with _Google Translate_ saved phrases.
+<img src="./dist/icons/192x192.png" width="64" height="64" align="left" />
 
-:information_source: [HOWTO Save Google Translation History](https://support.google.com/translate/answer/9729699)
+Import **Google Translate** saved phrases into the local storage and display them on a tooltip for relevant text on a web page.
 
 ## Development
 
-:construction: Aye.
+:construction: _Aye_.
 
-Preload [mozilla/webextension-polyfill](https://github.com/mozilla/webextension-polyfill).
+Preload [mozilla/webextension-polyfill](https://github.com/mozilla/webextension-polyfill), the only production dependency.
 
 Testing it on **Firefox** and **Chrome**. (**Opera** :bug:)
+
+Build with **Rollup** to `/dist` folder that contains templates (temporary).
 
 ### CLI Commands
 
@@ -23,28 +25,19 @@ npm run dev
 
 # Compiles and minifies for production
 npm run build
-
-# Run your unit tests
-npm test
-
-# Lints and fixes files
-npm run lint
-npm run lint-fix
-
-# Generate icons
-npm run generate-icons
 ```
 
-## Asset
+## Links
 
-### App base icon
+### Self
+ - [Website](https://subztep.github.io/web-words/)
+ - [Firefox add-on](https://addons.mozilla.org/addon/web-words/)
+ - [Chrome web store](https://chrome.google.com/webstore/detail/web-words/oafbnidobflmgdldmjjdiofefhofknbm)
 
-<img src="./assets/language-duotone.svg" width="64" height="64" />
-
-[ [base](https://fontawesome.com/icons/language?style=regular) · [parser](https://preview.npmjs.com/package/svg-app-icon) · [sizes](https://stackoverflow.com/a/60184542/1398275) ]
-
-## Related _3rd party_ issues :mega:
-
-### Would be nice to have
+### Related _3rd party_ issues :mega:
 - [Google Translate Phrasebook API, which grants an access users' saved translations](https://issuetracker.google.com/issues/35881350)
 - [WebRequest API: allow extensions to read response body](https://bugs.chromium.org/p/chromium/issues/detail?id=487422)
+
+### Other
+
+- :information_source: [HOWTO Save Google Translation History](https://support.google.com/translate/answer/9729699)
