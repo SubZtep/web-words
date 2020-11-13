@@ -1,5 +1,4 @@
 const translateEl = (el: HTMLElement) => {
-  console.log({ el })
   const key = el.innerText
   if (key) {
     const translated = browser.i18n.getMessage(key)
