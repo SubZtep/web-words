@@ -1,4 +1,4 @@
-let delay = 1000 // leniency between mutations in ms
+let delay = 1000 // tatency between mutations in ms
 let timeoutID: number | undefined = undefined
 let mutated: () => void
 let target: HTMLBodyElement | null

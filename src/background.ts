@@ -39,6 +39,7 @@ const onTabUpdate = async (tabId: number, { status }: browser.tabs._OnUpdatedCha
     // FIXME: Error: Could not establish connection. Receiving end does not exist.
     // Change in manifest.json to content_scripts/run_at/document_start makes it better
     // but the problem still exists (especially on google maps).
+    // (Send message only to page with detected language)
   }
 }
 
