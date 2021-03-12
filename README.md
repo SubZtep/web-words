@@ -33,6 +33,9 @@ npm run build
  - [Website](https://subztep.github.io/web-words/)
  - [Firefox add-on](https://addons.mozilla.org/addon/web-words/)
  - [Chrome web store](https://chrome.google.com/webstore/detail/web-words/oafbnidobflmgdldmjjdiofefhofknbm)
+ - :movie_camera::computer:
+
+   [![Dev Preview](https://img.youtube.com/vi/XBuz8XjvEAw/3.jpg)](https://www.youtube.com/watch?v=XBuz8XjvEAw)
 
 ### Related _3rd party_ issues :mega:
 - [Google Translate Phrasebook API, which grants an access users' saved translations](https://issuetracker.google.com/issues/35881350)
